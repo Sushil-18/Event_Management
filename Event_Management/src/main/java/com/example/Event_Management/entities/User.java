@@ -1,0 +1,29 @@
+package com.example.Event_Management.entities;
+
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Getter
+@Setter
+@Table(name = "users")
+public class User{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(nullable = false)
+    private String firstName;
+    @Column(nullable = false)
+    private String lastName;
+    @Column(nullable = false, unique = true)
+    private String email;
+    @Column(nullable = false)
+    private String password;
+}
