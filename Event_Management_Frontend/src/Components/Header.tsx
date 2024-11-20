@@ -32,7 +32,7 @@ const Header = () => {
         </>
       )}
       <h2 className="text-3xl font-semibold justify-self-center">SpotLight</h2>
-      <div className="flex gap-4 text-xl justify-end">
+      <div className="flex gap-4 text-xl justify-end font-light">
         <NavLink
           to={
             location.pathname === "/auth/login" ? "/auth/signup" : "/auth/login"
@@ -44,7 +44,7 @@ const Header = () => {
           </span>
           {location.pathname === "/auth/login" ? "Sign Up" : "Log In"}
         </NavLink>
-        <NavLink to="/contact" className="border-2 p-1 border-black">
+        <NavLink to="/contact" className="border-2 p-1 border-black ">
           Contact
         </NavLink>
       </div>
