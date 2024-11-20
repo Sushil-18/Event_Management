@@ -4,6 +4,9 @@ import LogInPage from "./Pages/LogInPage";
 import ErrorPage from "./Pages/ErrorPage";
 import Signup from "./Pages/Signup";
 import Layout from "./Pages/Layout";
+import Events from "./Pages/Events";
+import Event from "./Pages/Event";
+import Contact from "./Pages/Contact";
 function App() {
   const router = createBrowserRouter([
     {
@@ -11,6 +14,16 @@ function App() {
       element: <Layout />,
       errorElement: <ErrorPage />,
       children: [
+        {
+          path: "/",
+          element: <Events />,
+          children: [
+            {
+              path: ":eventId",
+              element: <Event />,
+            },
+          ],
+        },
         {
           path: "auth",
           children: [
@@ -21,6 +34,10 @@ function App() {
             {
               path: "signup",
               element: <Signup />,
+            },
+            {
+              path: "contact",
+              element: <Contact />,
             },
           ],
         },
