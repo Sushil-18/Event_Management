@@ -7,6 +7,9 @@ import Layout from "./Pages/Layout";
 import Events from "./Pages/Events";
 import Event from "./Pages/Event";
 import Contact from "./Pages/Contact";
+import HomePage from "./Pages/HomePage";
+import AboutUs from "./Pages/AboutUs";
+import EventCard from "./Components/EventCard";
 function App() {
   const router = createBrowserRouter([
     {
@@ -16,6 +19,10 @@ function App() {
       children: [
         {
           path: "/",
+          element: <HomePage />,
+        },
+        {
+          path: "events",
           element: <Events />,
           children: [
             {
@@ -26,6 +33,7 @@ function App() {
         },
         {
           path: "auth",
+          element: <LogInPage />,
           children: [
             {
               path: "login",
@@ -35,11 +43,15 @@ function App() {
               path: "signup",
               element: <Signup />,
             },
-            {
-              path: "contact",
-              element: <Contact />,
-            },
           ],
+        },
+        {
+          path: "contact",
+          element: <Contact />,
+        },
+        {
+          path: "about",
+          element: <AboutUs />,
         },
       ],
     },
