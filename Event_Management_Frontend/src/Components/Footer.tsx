@@ -1,7 +1,9 @@
 const Footer = () => {
   return (
     <div>
-      <p>This is footer of our application</p>
+      <p className="text-black text-center">
+        This is footer of our application
+      </p>
     </div>
   );
 };

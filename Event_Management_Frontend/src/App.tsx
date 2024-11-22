@@ -22,6 +22,15 @@ function App() {
           element: <HomePage />,
         },
         {
+          path: "login",
+          element: <LogInPage />,
+        },
+
+        {
+          path: "signup",
+          element: <Signup />,
+        },
+        {
           path: "events",
           element: <Events />,
           children: [
@@ -31,20 +40,7 @@ function App() {
             },
           ],
         },
-        {
-          path: "auth",
-          element: <LogInPage />,
-          children: [
-            {
-              path: "login",
-              element: <LogInPage />,
-            },
-            {
-              path: "signup",
-              element: <Signup />,
-            },
-          ],
-        },
+
         {
           path: "contact",
           element: <Contact />,

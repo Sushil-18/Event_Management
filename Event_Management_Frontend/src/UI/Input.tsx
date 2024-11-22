@@ -1,10 +1,24 @@
 import InputProps from "../Types/InputProps";
 
-const Input: React.FC<InputProps> = ({ labelName, inputType, onChange }) => {
+const Input: React.FC<InputProps> = ({
+  labelName,
+  inputType,
+  onChange,
+  value,
+  placeHolder,
+  labelStyle,
+  inputStyle,
+}) => {
   return (
     <>
-      <label htmlFor="">{labelName}</label>
-      <input type={inputType} onChange={onChange} />
+      <label className={labelStyle}>{labelName}</label>
+      <input
+        type={inputType}
+        onChange={onChange}
+        value={value}
+        placeholder={placeHolder}
+        className={inputStyle}
+      />
     </>
   );
 };

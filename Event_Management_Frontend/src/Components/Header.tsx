@@ -15,7 +15,7 @@ const Header = () => {
     setIsDrawerOpen((prevDrawerState) => !prevDrawerState);
   }
   return (
-    <nav className="bg-orange-50 px-24 h-[10vh] grid grid-cols-3 items-center text-black">
+    <nav className="bg-orange-50 px-24 h-[10vh] grid grid-cols-3 items-center text-black shadow-md">
       <button>
         <RxHamburgerMenu
           className="text-4xl w-16 border-2 rounded-md"
@@ -34,9 +34,7 @@ const Header = () => {
       <h2 className="text-3xl font-semibold justify-self-center">SpotLight</h2>
       <div className="flex gap-4 text-xl justify-end font-light">
         <NavLink
-          to={
-            location.pathname === "/auth/login" ? "/auth/signup" : "/auth/login"
-          }
+          to={location.pathname === "/auth/login" ? "/signup" : "/login"}
           className="flex items-center gap-2 z-10"
         >
           <span>
