@@ -51,7 +51,7 @@ const Signup: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 my-16">
       <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">
           Sign Up
@@ -166,7 +166,7 @@ const Signup: React.FC = () => {
 
         <p className="mt-4 text-center text-sm text-gray-600">
           Already have an account?{" "}
-          <a href="/auth/login" className="text-blue-500 hover:text-blue-600">
+          <a href="/login" className="text-blue-500 hover:text-blue-600">
             Login
           </a>
         </p>
