@@ -1,4 +1,6 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import { Form, Formik, FormikHelpers } from "formik";
+import { NavLink } from "react-router-dom";
+import * as Yup from "yup";
 
 interface FormData {
   firstName: string;
@@ -8,167 +10,214 @@ interface FormData {
   confirmPassword: string;
 }
 
-const Signup: React.FC = () => {
-  // State to store form input values with type definition
-  const [formData, setFormData] = useState<FormData>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+//validation schema
+const signupSchema = Yup.object().shape({
+  firstName: Yup.string()
+    .required("First name is required")
+    .max(10, "First name must not exceed 50 characters"),
+  lastName: Yup.string()
+    .required("Last name is required")
+    .max(10, "Last name must not exceed 50 characters"),
+  email: Yup.string()
+    .required("Email is required")
+    .email("Invalid email address"),
+  password: Yup.string()
+    .required("Password is required")
+    .min(8, "Password must be at least 8 characters")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+    ),
+  confirmPassword: Yup.string()
+    .required("Confirm Password is required")
+    .oneOf([Yup.ref("password")], "Passwords must match"),
+});
 
-  const [error, setError] = useState<string>("");
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+const Signup: React.FC<{}> = () => {
+  const handleSubmit = async (
+    values: FormData,
+    { setSubmitting }: FormikHelpers<FormData>
+  ) => {
+    try {
+    } catch (error) {
+    } finally {
+      setSubmitting(false);
+    }
   };
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const { firstName, lastName, email, password, confirmPassword } = formData;
-
-    // Basic validation
-    if (!firstName || !lastName || !email || !password || !confirmPassword) {
-      setError("Please fill in all fields");
-      return;
-    }
-
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      setError("Please enter a valid email");
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-
-    setError("");
-    // Handle your form submission logic here (e.g., API call)
-    console.log("Form submitted:", formData);
-  };
-
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 my-16">
-      <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">
+    <div className="flex items-center justify-center my-8">
+      <div className="bg-white p-8 max-w-md w-full rounded-md shadow-md">
+        <h2 className="text-2xl text-gray-700 font-semibold text-center">
           Sign Up
         </h2>
-
-        {/* Error message */}
-        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-
-        <form onSubmit={handleSubmit}>
-          {/* First Name */}
-          <div className="mb-4">
-            <label
-              htmlFor="firstName"
-              className="block text-sm font-medium text-gray-700"
-            >
-              First Name
-            </label>
-            <input
-              type="text"
-              id="firstName"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              placeholder="John"
-            />
-          </div>
-
-          {/* Last Name */}
-          <div className="mb-4">
-            <label
-              htmlFor="lastName"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Last Name
-            </label>
-            <input
-              type="text"
-              id="lastName"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              placeholder="Doe"
-            />
-          </div>
-
-          {/* Email */}
-          <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Email Address
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              placeholder="youremail@example.com"
-            />
-          </div>
-
-          {/* Password */}
-          <div className="mb-4">
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              placeholder="••••••••"
-            />
-          </div>
-
-          {/* Confirm Password */}
-          <div className="mb-6">
-            <label
-              htmlFor="confirmPassword"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              className="w-full mt-2 p-3 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              placeholder="••••••••"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="w-full py-3 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          >
-            Sign Up
-          </button>
-        </form>
-
+        <Formik<FormData>
+          initialValues={{
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+          }}
+          validationSchema={signupSchema}
+          onSubmit={handleSubmit}
+        >
+          {({
+            errors,
+            touched,
+            isSubmitting,
+            handleChange,
+            handleBlur,
+            values,
+          }) => (
+            <Form>
+              <div className="mb-6">
+                <div className="mb-4">
+                  <label
+                    htmlFor="firstname"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    First Name
+                  </label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.firstName}
+                    placeholder="First Name"
+                    className={`w-full mt-2 p-3 border ${
+                      errors.firstName && touched.firstName
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    } rounded-md focus:ring-indigo-500 focus:border-indigo-500`}
+                  />
+                  {errors.firstName && touched.firstName && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.firstName}
+                    </p>
+                  )}
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="lastName"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Last Name
+                  </label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.lastName}
+                    placeholder="Last Name"
+                    className={`w-full mt-2 p-3 border ${
+                      errors.lastName && touched.lastName
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    } rounded-md focus:ring-indigo-500 focus:border-indigo-500`}
+                  />
+                  {errors.lastName && touched.lastName && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.lastName}
+                    </p>
+                  )}
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Email
+                  </label>
+                  <input
+                    type="text"
+                    name="email"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.email}
+                    placeholder="test@test.com"
+                    className={`w-full mt-2 p-3 border ${
+                      errors.email && touched.email
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    } rounded-md focus:ring-indigo-500 focus:border-indigo-500`}
+                  />
+                  {errors.email && touched.email && (
+                    <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+                  )}
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.password}
+                    placeholder="********"
+                    className={`w-full mt-2 p-3 border ${
+                      errors.password && touched.password
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    } rounded-md focus:ring-indigo-500 focus:border-indigo-500`}
+                  />
+                  {errors.password && touched.password && (
+                    <p
+                      className="text-red-500
+                   text-xs mt-1"
+                    >
+                      {errors.password}
+                    </p>
+                  )}
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="confirm password"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Confirm Password
+                  </label>
+                  <input
+                    type="password"
+                    name="confirmPassword"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.confirmPassword}
+                    placeholder="********"
+                    className={`w-full mt-2 p-3 border ${
+                      errors.confirmPassword && touched.confirmPassword
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    } rounded-md focus:ring-indigo-500 focus:border-indigo-500`}
+                  />
+                  {errors.confirmPassword && touched.confirmPassword && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.confirmPassword}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <button
+                type="submit"
+                className={`w-full bg-blue-500 py-3 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400
+              ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
+              >
+                Submit
+              </button>
+            </Form>
+          )}
+        </Formik>
         <p className="mt-4 text-center text-sm text-gray-600">
           Already have an account?{" "}
-          <a href="/login" className="text-blue-500 hover:text-blue-600">
+          <NavLink to="/login" className="text-blue-500 hover:text-blue-600">
             Login
-          </a>
+          </NavLink>
         </p>
       </div>
     </div>
