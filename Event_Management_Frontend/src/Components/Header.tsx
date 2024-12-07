@@ -15,8 +15,8 @@ const Header = () => {
     setIsDrawerOpen((prevDrawerState) => !prevDrawerState);
   }
   return (
-    <nav className="bg-orange-50 px-24 h-[10vh] grid grid-cols-3 items-center text-black shadow-md">
-      <button>
+    <nav className="bg-orange-100 px-24 h-[10vh] grid grid-cols-3 items-center text-black shadow-md sticky top-0">
+      <button className="w-16">
         <RxHamburgerMenu
           className="text-4xl w-16 border-2 rounded-md"
           onClick={handleDrawerOpen}
@@ -34,15 +34,15 @@ const Header = () => {
       <h2 className="text-3xl font-semibold justify-self-center">SpotLight</h2>
       <div className="flex gap-4 text-xl justify-end font-light">
         <NavLink
-          to={location.pathname === "/auth/login" ? "/signup" : "/login"}
+          to={location.pathname === "/login" ? "/signup" : "/login"}
           className="flex items-center gap-2 z-10"
         >
           <span>
             <FaUserCircle />
           </span>
-          {location.pathname === "/auth/login" ? "Sign Up" : "Log In"}
+          {location.pathname === "/login" ? "Sign Up" : "Log In"}
         </NavLink>
-        <NavLink to="/contact" className="border-2 p-1 border-black ">
+        <NavLink to="/contact" className="border-2 p-1 border-black rounded-md">
           Contact
         </NavLink>
       </div>

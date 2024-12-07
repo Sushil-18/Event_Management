@@ -36,7 +36,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="flex-grow flex justify-center items-center my-32 bg-gray-100">
+    <div className="flex-grow flex justify-center items-center my-24 bg-gray-100">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md min-h-full">
         <h2 className="text-2xl text-gray-700 font-semibold text-center">
           Log In
