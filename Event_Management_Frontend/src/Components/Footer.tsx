@@ -1,4 +1,12 @@
+import { NavLink } from "react-router-dom";
+
 const Footer = () => {
+  const scrollToTop = (): void => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
   return (
     <footer className="text-black text-center px-24 z-0">
       <div className="flex justify-between py-12">
@@ -17,12 +25,20 @@ const Footer = () => {
             From beginning to end!
           </h2>
           <div className="flex gap-8 justify-center mt-4">
-            <button className="z-0 py-2 px-4 border-0 bg-orange-200 rounded-full transform transition-transform hover:bg-orange-300 hover:scale-110">
+            <NavLink
+              onClick={scrollToTop}
+              to="/login"
+              className="z-0 py-2 px-4 border-0 bg-orange-200 rounded-full transform transition-transform hover:bg-orange-300 hover:scale-110"
+            >
               Log In
-            </button>
-            <button className="py-2 px-4 border-0 bg-orange-200 rounded-full transform transition-transform hover:bg-orange-300 hover:scale-110">
+            </NavLink>
+            <NavLink
+              onClick={scrollToTop}
+              to="/signup"
+              className="py-2 px-4 border-0 bg-orange-200 rounded-full transform transition-transform hover:bg-orange-300 hover:scale-110"
+            >
               Sign Up
-            </button>
+            </NavLink>
           </div>
         </div>
       </div>
