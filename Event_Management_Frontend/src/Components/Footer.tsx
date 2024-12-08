@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer className="text-black text-center px-24">
+    <footer className="text-black text-center px-24 z-0">
       <div className="flex justify-between py-12">
         <div>
           <h2 className="font-semibold text-2xl">
@@ -17,7 +17,7 @@ const Footer = () => {
             From beginning to end!
           </h2>
           <div className="flex gap-8 justify-center mt-4">
-            <button className="py-2 px-4 border-0 bg-orange-200 rounded-full transform transition-transform hover:bg-orange-300 hover:scale-110">
+            <button className="z-0 py-2 px-4 border-0 bg-orange-200 rounded-full transform transition-transform hover:bg-orange-300 hover:scale-110">
               Log In
             </button>
             <button className="py-2 px-4 border-0 bg-orange-200 rounded-full transform transition-transform hover:bg-orange-300 hover:scale-110">

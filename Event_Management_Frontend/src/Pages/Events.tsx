@@ -25,6 +25,7 @@ const Events = () => {
       title: "Annual Sports Meet",
       description:
         "A thrilling sports event featuring track and field competitions, team games, and individual sports challenges.",
+
       imageURL: "https://via.placeholder.com/300x200.png?text=Sports+Meet",
       startTime: "2024-12-10T08:00:00",
       endTime: "2024-12-10T16:00:00",
@@ -51,9 +52,9 @@ const Events = () => {
   ];
 
   return (
-    <div className="flex flex-wrap gap-4 mt-4 px-24">
+    <div className="flex flex-wrap justify-center gap-4 mt-4 px-24 z-10">
       {events.map((event) => (
-        <div className="flex-none w-full sm:w-1/2 md:w-1/4 h-full">
+        <div className="flex-none w-full sm:w-1/2 md:w-1/3 lg:w-1/4 h-full relative z-0">
           <EventCard
             key={event.id}
             id={event.id}

@@ -10,12 +10,12 @@ const EventCard: React.FC<EventDetails> = ({
   endTime,
 }) => {
   return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden w-72 transform transition-all duration-300 hover:scale-105">
-      {/* Image Section */}
-      <div className="h-48 overflow-hidden relative">
+    <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full h-[400px] flex flex-col transform transition-all duration-300 hover:scale-105">
+      {/* Image Section - Fixed Height */}
+      <div className="min-h-48 max-h-48 w-full overflow-hidden relative">
         <img
           src={imageURL}
-          alt="Summer Tech Conference"
+          alt={title}
           className="w-full h-full object-cover"
         />
         {/* Event ID Overlay */}
@@ -24,16 +24,20 @@ const EventCard: React.FC<EventDetails> = ({
         </div>
       </div>
 
-      {/* Content Section */}
-      <div className="p-4">
-        {/* Title */}
-        <h2 className="text-xl font-bold text-gray-800 mb-2">{title}</h2>
+      {/* Content Section - Flex to maintain consistent layout */}
+      <div className="p-4 flex flex-col flex-grow">
+        {/* Title - Fixed height and line clamp */}
+        <h2 className="text-xl font-bold text-gray-800 mb-2 h-14 line-clamp-2 overflow-hidden">
+          {title}
+        </h2>
 
-        {/* Description */}
-        <p className="text-gray-600 text-sm mb-3">{description}</p>
+        {/* Description - Constrained height with scrolling */}
+        <div className="max-h-16 overflow-y-auto mb-2 pr-1 custom-scrollbar">
+          <p className="text-gray-600 text-sm">{description}</p>
+        </div>
 
-        {/* Date and Time */}
-        <div className="flex items-center text-gray-700 mb-3">
+        {/* Date and Time - Consistent positioning at bottom */}
+        <div className="flex items-center text-gray-700 mt-auto">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5 mr-2 text-blue-500"

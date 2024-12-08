@@ -12,7 +12,7 @@ interface menuProps {
 const Menu: React.FC<menuProps> = ({ onClose }) => {
   return (
     <div
-      className=" border-0 rounded-r-lg pt-8 absolute top-0 left-0 w-[20vw] h-full bg-emerald-900
+      className=" border-0 rounded-r-lg pt-8 fixed top-0 left-0 w-[20vw] h-full bg-emerald-900
      text-white flex flex-col items-start px-4 gap-4 z-50 text-2xl overflow-hidden font-light "
     >
       <div className="flex w-full justify-between items-center hover:bg-emerald-700 p-2 border-0 rounded-md">

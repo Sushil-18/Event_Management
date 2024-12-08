@@ -15,7 +15,7 @@ const Header = () => {
     setIsDrawerOpen((prevDrawerState) => !prevDrawerState);
   }
   return (
-    <nav className="bg-orange-100 px-24 h-[10vh] grid grid-cols-3 items-center text-black shadow-md sticky top-0">
+    <nav className="bg-orange-100 px-24 h-[10vh] grid grid-cols-3 items-center text-black shadow-md sticky top-0 z-10">
       <button className="w-16">
         <RxHamburgerMenu
           className="text-4xl w-16 border-2 rounded-md"
