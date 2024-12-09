@@ -1,4 +1,4 @@
-import { Formik, Form, FormikHelpers } from "formik";
+import { Formik, Form, FormikHelpers, Field } from "formik";
 import * as Yup from "yup";
 import { NavLink } from "react-router-dom";
 
@@ -63,14 +63,11 @@ const LoginPage: React.FC = () => {
                   >
                     Username
                   </label>
-                  <input
+                  <Field
                     type="text"
                     name="username"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.username}
                     placeholder="example@gmail.com"
-                    className={`w-full mt-2 p-3 border ${
+                    className={`w-full mt-2 p-3 border bg-white outline-none ${
                       errors.username && touched.username
                         ? "border-red-500"
                         : "border-gray-300"
@@ -90,14 +87,11 @@ const LoginPage: React.FC = () => {
                   >
                     Password
                   </label>
-                  <input
+                  <Field
                     type="password"
                     name="password"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.password}
                     placeholder="***********"
-                    className={`w-full mt-2 p-3 border ${
+                    className={`w-full mt-2 p-3 border bg-white outline-none ${
                       errors.password && touched.password
                         ? "border-red-500"
                         : "border-gray-300"

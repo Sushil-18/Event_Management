@@ -1,4 +1,4 @@
-import { Form, Formik, FormikHelpers } from "formik";
+import { Field, Form, Formik, FormikHelpers } from "formik";
 import { NavLink } from "react-router-dom";
 import * as Yup from "yup";
 
@@ -78,14 +78,11 @@ const Signup: React.FC<{}> = () => {
                   >
                     First Name
                   </label>
-                  <input
+                  <Field
                     type="text"
                     name="firstName"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.firstName}
                     placeholder="First Name"
-                    className={`w-full mt-2 p-3 border ${
+                    className={`w-full mt-2 p-3 border  bg-white outline-none ${
                       errors.firstName && touched.firstName
                         ? "border-red-500"
                         : "border-gray-300"
@@ -104,14 +101,11 @@ const Signup: React.FC<{}> = () => {
                   >
                     Last Name
                   </label>
-                  <input
+                  <Field
                     type="text"
                     name="lastName"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.lastName}
                     placeholder="Last Name"
-                    className={`w-full mt-2 p-3 border ${
+                    className={`w-full mt-2 p-3 border  bg-white outline-none ${
                       errors.lastName && touched.lastName
                         ? "border-red-500"
                         : "border-gray-300"
@@ -130,14 +124,11 @@ const Signup: React.FC<{}> = () => {
                   >
                     Email
                   </label>
-                  <input
+                  <Field
                     type="text"
                     name="email"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.email}
                     placeholder="test@test.com"
-                    className={`w-full mt-2 p-3 border ${
+                    className={`w-full mt-2 p-3 border  bg-white outline-none ${
                       errors.email && touched.email
                         ? "border-red-500"
                         : "border-gray-300"
@@ -154,14 +145,11 @@ const Signup: React.FC<{}> = () => {
                   >
                     Password
                   </label>
-                  <input
+                  <Field
                     type="password"
                     name="password"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.password}
                     placeholder="********"
-                    className={`w-full mt-2 p-3 border ${
+                    className={`w-full mt-2 p-3 border bg-white outline-none ${
                       errors.password && touched.password
                         ? "border-red-500"
                         : "border-gray-300"
@@ -183,14 +171,11 @@ const Signup: React.FC<{}> = () => {
                   >
                     Confirm Password
                   </label>
-                  <input
+                  <Field
                     type="password"
                     name="confirmPassword"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.confirmPassword}
                     placeholder="********"
-                    className={`w-full mt-2 p-3 border ${
+                    className={`w-full mt-2 p-3 border bg-white outline-none ${
                       errors.confirmPassword && touched.confirmPassword
                         ? "border-red-500"
                         : "border-gray-300"
