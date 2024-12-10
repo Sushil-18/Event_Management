@@ -36,9 +36,9 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="flex-grow flex justify-center items-center my-24 bg-gray-100">
-      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md min-h-full">
-        <h2 className="text-2xl text-gray-700 font-semibold text-center">
+    <div className="flex-grow flex justify-center items-center my-24">
+      <div className="w-full max-w-md p-8 bg-orange-100 rounded-lg shadow-md min-h-full">
+        <h2 className="text-2xl text-orange-700 font-semibold text-center">
           Log In
         </h2>
         <Formik<LoginFormValues>
@@ -59,7 +59,7 @@ const LoginPage: React.FC = () => {
                 <div className="mb-4">
                   <label
                     htmlFor="username"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-orange-700"
                   >
                     Username
                   </label>
@@ -67,11 +67,11 @@ const LoginPage: React.FC = () => {
                     type="text"
                     name="username"
                     placeholder="example@gmail.com"
-                    className={`w-full mt-2 p-3 border bg-white outline-none ${
+                    className={`w-full mt-2 p-3 border bg-orange-50 outline-none ${
                       errors.username && touched.username
                         ? "border-red-500"
-                        : "border-gray-300"
-                    } rounded-md focus:ring-indigo-500 focus:border-indigo-500`}
+                        : "border-orange-300"
+                    } rounded-md focus:ring-orange-500 focus:border-orange-500`}
                   />
                   {errors.username && touched.username && (
                     <p className="text-red-500 text-xs mt-1">
@@ -83,7 +83,7 @@ const LoginPage: React.FC = () => {
                 <div className="mb-4">
                   <label
                     htmlFor="password"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-orange-700"
                   >
                     Password
                   </label>
@@ -91,11 +91,11 @@ const LoginPage: React.FC = () => {
                     type="password"
                     name="password"
                     placeholder="***********"
-                    className={`w-full mt-2 p-3 border bg-white outline-none ${
+                    className={`w-full mt-2 p-3 border bg-orange-50 outline-none ${
                       errors.password && touched.password
                         ? "border-red-500"
-                        : "border-gray-300"
-                    } rounded-md focus:ring-indigo-500 focus:border-indigo-500`}
+                        : "border-orange-300"
+                    } rounded-md focus:ring-orange-500 focus:border-orange-500`}
                   />
                   {errors.password && touched.password && (
                     <p className="text-red-500 text-xs mt-1">
@@ -108,7 +108,7 @@ const LoginPage: React.FC = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className={`w-full bg-blue-500 py-3 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                className={`w-full bg-orange-500 py-3 text-white font-semibold rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400 ${
                   isSubmitting ? "opacity-50 cursor-not-allowed" : ""
                 }`}
               >
@@ -118,9 +118,12 @@ const LoginPage: React.FC = () => {
           )}
         </Formik>
 
-        <p className="mt-4 text-center text-sm text-gray-600">
+        <p className="mt-4 text-center text-sm">
           Don't have an account?{" "}
-          <NavLink to="/signup" className="text-blue-500 hover:text-blue-600">
+          <NavLink
+            to="/signup"
+            className="text-orange-500 hover:text-orange-600"
+          >
             Sign Up
           </NavLink>
         </p>

@@ -31,7 +31,10 @@ const Header = () => {
           <Menu onClose={handleDrawerClose} />
         </>
       )}
-      <NavLink to="/" className="text-3xl font-semibold justify-self-center">
+      <NavLink
+        to="/"
+        className="text-3xl text-orange-600 font-semibold justify-self-center"
+      >
         SpotLight
       </NavLink>
       <div className="flex gap-4 text-md justify-end font-light">

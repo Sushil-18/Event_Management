@@ -9,6 +9,7 @@ import Event from "./Pages/Event";
 import Contact from "./Pages/Contact";
 import HomePage from "./Pages/HomePage";
 import AboutUs from "./Pages/AboutUs";
+import CreateEventForm from "./Pages/CreateEventForm";
 function App() {
   const router = createBrowserRouter([
     {
@@ -32,6 +33,10 @@ function App() {
         {
           path: "events",
           element: <Events />,
+        },
+        {
+          path: "events/create",
+          element: <CreateEventForm />,
         },
         {
           path: "events/:eventId",

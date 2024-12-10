@@ -10,7 +10,7 @@ interface FormData {
   confirmPassword: string;
 }
 
-//validation schema
+// Validation schema
 const signupSchema = Yup.object().shape({
   firstName: Yup.string()
     .required("First name is required")
@@ -39,15 +39,19 @@ const Signup: React.FC<{}> = () => {
     { setSubmitting }: FormikHelpers<FormData>
   ) => {
     try {
+      // Handle form submission logic
+      console.log(values);
     } catch (error) {
+      console.error(error);
     } finally {
       setSubmitting(false);
     }
   };
+
   return (
-    <div className="flex items-center justify-center my-8">
-      <div className="bg-white p-8 max-w-md w-full rounded-md shadow-md">
-        <h2 className="text-2xl text-gray-700 font-semibold text-center">
+    <div className="flex items-center justify-center my-8 ">
+      <div className="bg-orange-100 p-8 max-w-md w-full rounded-md shadow-md">
+        <h2 className="text-2xl text-orange-700 font-semibold text-center">
           Sign Up
         </h2>
         <Formik<FormData>
@@ -74,7 +78,7 @@ const Signup: React.FC<{}> = () => {
                 <div className="mb-4">
                   <label
                     htmlFor="firstname"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-orange-700"
                   >
                     First Name
                   </label>
@@ -82,11 +86,11 @@ const Signup: React.FC<{}> = () => {
                     type="text"
                     name="firstName"
                     placeholder="First Name"
-                    className={`w-full mt-2 p-3 border  bg-white outline-none ${
+                    className={`w-full mt-2 p-3 border bg-orange-50 outline-none ${
                       errors.firstName && touched.firstName
                         ? "border-red-500"
-                        : "border-gray-300"
-                    } rounded-md focus:ring-indigo-500 focus:border-indigo-500`}
+                        : "border-orange-300"
+                    } rounded-md focus:ring-orange-500 focus:border-orange-500`}
                   />
                   {errors.firstName && touched.firstName && (
                     <p className="text-red-500 text-xs mt-1">
@@ -97,7 +101,7 @@ const Signup: React.FC<{}> = () => {
                 <div className="mb-4">
                   <label
                     htmlFor="lastName"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-orange-700"
                   >
                     Last Name
                   </label>
@@ -105,11 +109,11 @@ const Signup: React.FC<{}> = () => {
                     type="text"
                     name="lastName"
                     placeholder="Last Name"
-                    className={`w-full mt-2 p-3 border  bg-white outline-none ${
+                    className={`w-full mt-2 p-3 border bg-orange-50 outline-none ${
                       errors.lastName && touched.lastName
                         ? "border-red-500"
-                        : "border-gray-300"
-                    } rounded-md focus:ring-indigo-500 focus:border-indigo-500`}
+                        : "border-orange-300"
+                    } rounded-md focus:ring-orange-500 focus:border-orange-500`}
                   />
                   {errors.lastName && touched.lastName && (
                     <p className="text-red-500 text-xs mt-1">
@@ -120,7 +124,7 @@ const Signup: React.FC<{}> = () => {
                 <div className="mb-4">
                   <label
                     htmlFor="email"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-orange-700"
                   >
                     Email
                   </label>
@@ -128,11 +132,11 @@ const Signup: React.FC<{}> = () => {
                     type="text"
                     name="email"
                     placeholder="test@test.com"
-                    className={`w-full mt-2 p-3 border  bg-white outline-none ${
+                    className={`w-full mt-2 p-3 border bg-orange-50 outline-none ${
                       errors.email && touched.email
                         ? "border-red-500"
-                        : "border-gray-300"
-                    } rounded-md focus:ring-indigo-500 focus:border-indigo-500`}
+                        : "border-orange-300"
+                    } rounded-md focus:ring-orange-500 focus:border-orange-500`}
                   />
                   {errors.email && touched.email && (
                     <p className="text-red-500 text-xs mt-1">{errors.email}</p>
@@ -141,7 +145,7 @@ const Signup: React.FC<{}> = () => {
                 <div className="mb-4">
                   <label
                     htmlFor="password"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-orange-700"
                   >
                     Password
                   </label>
@@ -149,25 +153,22 @@ const Signup: React.FC<{}> = () => {
                     type="password"
                     name="password"
                     placeholder="********"
-                    className={`w-full mt-2 p-3 border bg-white outline-none ${
+                    className={`w-full mt-2 p-3 border bg-orange-50 outline-none ${
                       errors.password && touched.password
                         ? "border-red-500"
-                        : "border-gray-300"
-                    } rounded-md focus:ring-indigo-500 focus:border-indigo-500`}
+                        : "border-orange-300"
+                    } rounded-md focus:ring-orange-500 focus:border-orange-500`}
                   />
                   {errors.password && touched.password && (
-                    <p
-                      className="text-red-500
-                   text-xs mt-1"
-                    >
+                    <p className="text-red-500 text-xs mt-1">
                       {errors.password}
                     </p>
                   )}
                 </div>
                 <div className="mb-4">
                   <label
-                    htmlFor="confirm password"
-                    className="block text-sm font-medium text-gray-700"
+                    htmlFor="confirmPassword"
+                    className="block text-sm font-medium text-orange-700"
                   >
                     Confirm Password
                   </label>
@@ -175,11 +176,11 @@ const Signup: React.FC<{}> = () => {
                     type="password"
                     name="confirmPassword"
                     placeholder="********"
-                    className={`w-full mt-2 p-3 border bg-white outline-none ${
+                    className={`w-full mt-2 p-3 border bg-orange-50 outline-none ${
                       errors.confirmPassword && touched.confirmPassword
                         ? "border-red-500"
-                        : "border-gray-300"
-                    } rounded-md focus:ring-indigo-500 focus:border-indigo-500`}
+                        : "border-orange-300"
+                    } rounded-md focus:ring-orange-500 focus:border-orange-500`}
                   />
                   {errors.confirmPassword && touched.confirmPassword && (
                     <p className="text-red-500 text-xs mt-1">
@@ -190,17 +191,21 @@ const Signup: React.FC<{}> = () => {
               </div>
               <button
                 type="submit"
-                className={`w-full bg-blue-500 py-3 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400
-              ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
+                className={`w-full bg-orange-500 py-3 text-white font-semibold rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400 ${
+                  isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
                 Submit
               </button>
             </Form>
           )}
         </Formik>
-        <p className="mt-4 text-center text-sm text-gray-600">
+        <p className="mt-4 text-center text-sm ">
           Already have an account?{" "}
-          <NavLink to="/login" className="text-blue-500 hover:text-blue-600">
+          <NavLink
+            to="/login"
+            className="text-orange-500 hover:text-orange-600"
+          >
             Login
           </NavLink>
         </p>
