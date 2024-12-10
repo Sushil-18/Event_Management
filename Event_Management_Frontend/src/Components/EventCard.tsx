@@ -1,5 +1,6 @@
 import React from "react";
 import EventDetails from "../Types/EventDetails";
+import { useNavigate } from "react-router-dom";
 
 const EventCard: React.FC<EventDetails> = ({
   id,
@@ -9,8 +10,18 @@ const EventCard: React.FC<EventDetails> = ({
   startTime,
   endTime,
 }) => {
+  const navigate = useNavigate();
+
+  const handleClick = (eventId: number): void => {
+    const url = `/events/${eventId}`;
+    navigate(url);
+    console.log(`http://localhost:5173${url}`);
+  };
   return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full h-[400px] flex flex-col transform transition-all duration-300 hover:scale-105">
+    <div
+      onClick={() => handleClick(id)}
+      className="bg-white rounded-lg shadow-lg overflow-hidden w-full h-[400px] flex flex-col transform transition-all duration-300 hover:scale-105"
+    >
       {/* Image Section - Fixed Height */}
       <div className="min-h-48 max-h-48 w-full overflow-hidden relative">
         <img

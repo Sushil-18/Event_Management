@@ -1,7 +1,115 @@
-const Event = () => {
+import React from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { Calendar, Clock, Pencil, Trash2, ArrowLeft } from "lucide-react";
+import EventDetails from "../Types/EventDetails";
+
+const Event: React.FC = () => {
+  const navigate = useNavigate();
+  const { eventId } = useParams<{ eventId: string }>();
+
+  const event: EventDetails = {
+    id: 1,
+    title: "Tech Conference 2024",
+    description:
+      "A gathering of the brightest minds in technology to discuss trends, challenges, and innovations.",
+    imageURL: "https://via.placeholder.com/300x200.png?text=Tech+Conference",
+    startTime: "2024-11-25T09:00:00",
+    endTime: "2024-11-25T17:00:00",
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
+  const handleBackClick = () => navigate("/events");
+  const handleEditEvent = () => navigate(`/events/${eventId}/edit`);
+  const handleDeleteEvent = () => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this event?"
+    );
+    if (confirmDelete) {
+      navigate("/events");
+    }
+  };
+
   return (
-    <div>
-      <p>This page contains single evnet</p>
+    <div className="container mx-auto px-4 py-8 flex justify-center items-center">
+      <div className="bg-white shadow-2xl rounded-xl overflow-hidden w-full max-w-4xl">
+        {/* Event Image */}
+        <div className="h-64 md:h-72 w-full overflow-hidden">
+          <img
+            src={event.imageURL}
+            alt={event.title}
+            className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+
+        {/* Centered Content Container */}
+        <div className="p-6 md:p-8 flex flex-col items-center text-center">
+          {/* Title */}
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            {event.title}
+          </h1>
+
+          {/* Event Meta Information */}
+          <div className="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-6 mb-6">
+            <div className="flex items-center space-x-2">
+              <Calendar className="text-blue-500 w-5 h-5" />
+              <span className="text-gray-600">
+                {formatDate(event.startTime)}
+              </span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Clock className="text-green-500 w-5 h-5" />
+              <span className="text-gray-600">
+                {formatTime(event.startTime)} - {formatTime(event.endTime)}
+              </span>
+            </div>
+          </div>
+
+          {/* Description */}
+          <div className="mb-8 max-w-xl">
+            <p className="text-gray-600 leading-relaxed">{event.description}</p>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex justify-center space-x-4 mb-6">
+            <button
+              onClick={handleEditEvent}
+              className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+            >
+              <Pencil className="mr-2 w-5 h-5" /> Edit Event
+            </button>
+            <button
+              onClick={handleDeleteEvent}
+              className="flex items-center bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
+            >
+              <Trash2 className="mr-2 w-5 h-5" /> Delete Event
+            </button>
+          </div>
+
+          {/* Back Button */}
+          <button
+            onClick={handleBackClick}
+            className="flex items-center text-gray-700 hover:text-blue-500 transition-colors"
+          >
+            <ArrowLeft className="mr-2 w-5 h-5" /> Back to Events
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,4 +1,6 @@
 import EventImg from "../assets/Event.webp";
+import AboutUs from "./AboutUs";
+import Contact from "./Contact";
 
 const HomePage = () => {
   return (
@@ -12,6 +14,8 @@ const HomePage = () => {
           Specializing in creating a unique experience tailored to your vision.
         </p>
       </div>
+      <AboutUs />
+      <Contact />
     </div>
   );
 };

@@ -9,7 +9,6 @@ import Event from "./Pages/Event";
 import Contact from "./Pages/Contact";
 import HomePage from "./Pages/HomePage";
 import AboutUs from "./Pages/AboutUs";
-import EventCard from "./Components/EventCard";
 function App() {
   const router = createBrowserRouter([
     {
@@ -33,14 +32,11 @@ function App() {
         {
           path: "events",
           element: <Events />,
-          children: [
-            {
-              path: ":eventId",
-              element: <Event />,
-            },
-          ],
         },
-
+        {
+          path: "events/:eventId",
+          element: <Event />,
+        },
         {
           path: "contact",
           element: <Contact />,

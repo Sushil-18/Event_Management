@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import EventCard from "../Components/EventCard";
 import EventDetails from "../Types/EventDetails";
 const Events = () => {
@@ -66,6 +67,7 @@ const Events = () => {
           />
         </div>
       ))}
+      <Outlet />
     </div>
   );
 };

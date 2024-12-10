@@ -43,7 +43,7 @@ const Menu: React.FC<menuProps> = ({ onClose }) => {
         className="flex items-center w-full hover:bg-emerald-700 p-2 border-0 rounded-md"
         onClick={onClose}
       >
-        <FcAbout className="inline-block" />
+        <FcAbout className="inline-block text-white" />
         About
       </NavLink>
       <NavLink

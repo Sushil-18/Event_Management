@@ -31,7 +31,9 @@ const Header = () => {
           <Menu onClose={handleDrawerClose} />
         </>
       )}
-      <h2 className="text-3xl font-semibold justify-self-center">SpotLight</h2>
+      <NavLink to="/" className="text-3xl font-semibold justify-self-center">
+        SpotLight
+      </NavLink>
       <div className="flex gap-4 text-md justify-end font-light">
         <NavLink
           to={location.pathname === "/login" ? "/signup" : "/login"}
