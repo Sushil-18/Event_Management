@@ -46,14 +46,7 @@ const LoginPage: React.FC = () => {
           validationSchema={LoginSchema}
           onSubmit={handleSubmit}
         >
-          {({
-            errors,
-            touched,
-            isSubmitting,
-            handleChange,
-            handleBlur,
-            values,
-          }) => (
+          {({ errors, touched, isSubmitting }) => (
             <Form>
               <div className="mb-6">
                 <div className="mb-4">

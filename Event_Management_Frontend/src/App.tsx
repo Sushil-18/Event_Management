@@ -10,6 +10,7 @@ import Contact from "./Pages/Contact";
 import HomePage from "./Pages/HomePage";
 import AboutUs from "./Pages/AboutUs";
 import CreateEventForm from "./Pages/CreateEventForm";
+import EditEvent from "./Pages/EditEvent";
 function App() {
   const router = createBrowserRouter([
     {
@@ -41,6 +42,10 @@ function App() {
         {
           path: "events/:eventId",
           element: <Event />,
+        },
+        {
+          path: "events/:eventId/edit",
+          element: <EditEvent />,
         },
         {
           path: "contact",
