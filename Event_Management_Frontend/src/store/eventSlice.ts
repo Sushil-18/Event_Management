@@ -26,10 +26,10 @@ const initialState: EventState = {
 };
 
 // Async thunk for fetching events
-export const fetchEvents = createAsyncThunk("events/fetchEvents", async () => {
+/* export const fetchEvents = createAsyncThunk("events/fetchEvents", async () => {
   const response = await axios.get("/api/events");
   return response.data;
-});
+}); */
 
 const eventSlice = createSlice({
   name: "events",

@@ -11,7 +11,9 @@ import HomePage from "./Pages/HomePage";
 import AboutUs from "./Pages/AboutUs";
 import CreateEventForm from "./Pages/CreateEventForm";
 import EditEvent from "./Pages/EditEvent";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 function App() {
+  const queryClient = new QueryClient();
   const router = createBrowserRouter([
     {
       path: "/",
@@ -59,9 +61,9 @@ function App() {
     },
   ]);
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <RouterProvider router={router}></RouterProvider>
-    </>
+    </QueryClientProvider>
   );
 }
 
