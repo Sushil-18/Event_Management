@@ -31,6 +31,7 @@ public class SecurityConfig {
                         auth -> auth
                                // .requestMatchers()
                                 .requestMatchers("/auth/signup").permitAll()
+                                .requestMatchers("/events").permitAll()
                                 .anyRequest().authenticated()
                 )
                 /*.formLogin(form -> form
@@ -44,8 +45,7 @@ public class SecurityConfig {
                         .deleteCookies("JSESSIONID")
                         .logoutSuccessUrl("/login?logout=true")
                         .permitAll())*/
-                /*.formLogin(Customizer.withDefaults())*/
-                .httpBasic();
+                .formLogin(Customizer.withDefaults());
 
         return httpSecurity.build();
     }

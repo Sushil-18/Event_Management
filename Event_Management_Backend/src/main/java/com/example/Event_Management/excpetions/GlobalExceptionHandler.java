@@ -20,4 +20,16 @@ public class GlobalExceptionHandler {
         ApiError apiError = new ApiError(HttpStatus.NOT_FOUND,exception.getMessage(),exception.getLocalizedMessage());
         return new ResponseEntity<>(apiError,HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<ApiError> handleUserAlreadyExists(UserAlreadyExistsException exception){
+        ApiError apiError = new ApiError(HttpStatus.CONFLICT, exception.getMessage(), exception.getLocalizedMessage());
+        return new ResponseEntity<>(apiError,HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(UserRegistrationException.class)
+    public ResponseEntity<ApiError> handleUserRegistration(UserRegistrationException exception){
+        ApiError apiError = new ApiError(HttpStatus.SERVICE_UNAVAILABLE, exception.getMessage(),exception.getLocalizedMessage());
+        return new ResponseEntity<>(apiError,HttpStatus.SERVICE_UNAVAILABLE);
+    }
 }
