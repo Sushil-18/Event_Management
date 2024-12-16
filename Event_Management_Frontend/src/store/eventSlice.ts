@@ -1,56 +1,57 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-
-// Define the interface for your event details
-interface EventDetails {
-  id: string;
-  title: string;
-  description: string;
-  imageURL: string;
-  startTime: string;
-  endTime: string;
-}
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import EventDetails from "../Types/EventDetails";
 
 // Initial state type
 interface EventState {
   events: EventDetails[];
-  status: "idle" | "loading" | "succeeded" | "failed";
-  error: string | null;
+  selectedEvent: EventDetails | null;
 }
 
 // Initial state
 const initialState: EventState = {
   events: [],
-  status: "idle",
-  error: null,
+  selectedEvent: null,
 };
-
-// Async thunk for fetching events
-/* export const fetchEvents = createAsyncThunk("events/fetchEvents", async () => {
-  const response = await axios.get("/api/events");
-  return response.data;
-}); */
 
 const eventSlice = createSlice({
   name: "events",
   initialState,
   reducers: {
-    // Minimal or no manual reducers needed
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchEvents.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchEvents.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.events = action.payload;
-      })
-      .addCase(fetchEvents.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message || "Failed to fetch events";
-      });
+    // Set all events
+    setEvents: (state, action: PayloadAction<EventDetails[]>) => {
+      state.events = action.payload;
+    },
+
+    // Select a specific event
+    selectEvent: (state, action: PayloadAction<EventDetails>) => {
+      state.selectedEvent = action.payload;
+    },
+
+    // Clear selected event
+    clearSelectedEvent: (state) => {
+      state.selectedEvent = null;
+    },
+
+    // Add a new event
+    addEvent: (state, action: PayloadAction<EventDetails>) => {
+      state.events.push(action.payload);
+    },
+
+    // Remove an event
+    removeEvent: (state, action: PayloadAction<string>) => {
+      state.events = state.events.filter(
+        (event) => event.id !== action.payload
+      );
+    },
   },
 });
+
+export const {
+  setEvents,
+  selectEvent,
+  clearSelectedEvent,
+  addEvent,
+  removeEvent,
+} = eventSlice.actions;
 
 export default eventSlice.reducer;

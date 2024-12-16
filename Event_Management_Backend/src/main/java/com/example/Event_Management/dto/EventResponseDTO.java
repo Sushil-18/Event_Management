@@ -10,6 +10,7 @@ public class EventResponseDTO {
     private Long id;
     private String title;
     private String description;
+    private String imageURL;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 }

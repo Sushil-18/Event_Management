@@ -28,7 +28,7 @@ public class EventController {
         return eventService.getEventById(eventId);
     }
     @PutMapping("/{eventId}")
-    public ResponseEntity<EventResponseDTO> updateEvent(@RequestParam Long id,@RequestBody EventRequestDTO eventRequestDTO){
+    public ResponseEntity<EventResponseDTO> updateEvent(@PathVariable("eventId") Long id,@RequestBody EventRequestDTO eventRequestDTO){
         return eventService.updateEvent(id, eventRequestDTO);
     }
 }

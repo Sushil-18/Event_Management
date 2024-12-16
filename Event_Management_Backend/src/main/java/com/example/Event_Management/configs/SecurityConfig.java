@@ -30,9 +30,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         auth -> auth
                                // .requestMatchers()
-                                .requestMatchers("/auth/signup").permitAll()
+                                .requestMatchers("/signup").permitAll()
                                 .requestMatchers("/events").permitAll()
-                                .anyRequest().authenticated()
+                                .requestMatchers("/events/{eventId}").permitAll()
+                                .anyRequest().permitAll()
+                                //.anyRequest().authenticated()
                 )
                 /*.formLogin(form -> form
                         .loginPage("/login")

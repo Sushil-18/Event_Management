@@ -24,6 +24,6 @@ public class AppConfig {
                         .allowedHeaders("*")
                         .allowCredentials(true);
             }
-        }
+        };
     }
 }

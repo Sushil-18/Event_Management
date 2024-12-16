@@ -1,94 +1,55 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useQuery } from "@tanstack/react-query";
 import EventCard from "../Components/EventCard";
 import EventDetails from "../Types/EventDetails";
+import { setEvents } from "../store/eventSlice"; // Adjust import path as needed
+import axiosInstance from "../Utils/axiosInstance";
 
 const Events = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const events: EventDetails[] = [
-    {
-      id: 1,
-      title: "Tech Conference 2024",
-      description:
-        "A gathering of the brightest minds in technology to discuss trends, challenges, and innovations.",
-      imageURL: "https://via.placeholder.com/300x200.png?text=Tech+Conference",
-      startTime: "2024-11-25T09:00:00",
-      endTime: "2024-11-25T17:00:00",
-    },
-    {
-      id: 2,
-      title: "Art Exhibition - Modern Marvels",
-      description:
-        "Showcasing contemporary art pieces by renowned and emerging artists worldwide.",
-      imageURL: "https://via.placeholder.com/300x200.png?text=Art+Exhibition",
-      startTime: "2024-12-01T10:00:00",
-      endTime: "2024-12-01T20:00:00",
-    },
-    {
-      id: 3,
-      title: "Annual Sports Meet",
-      description:
-        "A thrilling sports event featuring track and field competitions, team games, and individual sports challenges.",
-      imageURL: "https://via.placeholder.com/300x200.png?text=Sports+Meet",
-      startTime: "2024-12-10T08:00:00",
-      endTime: "2024-12-10T16:00:00",
-    },
-    {
-      id: 4,
-      title: "Music Fest 2024",
-      description:
-        "An electrifying event featuring live performances by top musicians across genres.",
-      imageURL: "https://via.placeholder.com/300x200.png?text=Music+Fest",
-      startTime: "2024-12-15T18:00:00",
-      endTime: "2024-12-15T23:00:00",
-    },
-    {
-      id: 5,
-      title: "Culinary Carnival",
-      description:
-        "Explore cuisines from around the world with cooking workshops, tastings, and competitions.",
-      imageURL:
-        "https://via.placeholder.com/300x200.png?text=Culinary+Carnival",
-      startTime: "2024-12-20T11:00:00",
-      endTime: "2024-12-20T22:00:00",
-    },
-    {
-      id: 6,
-      title: "Startup Pitch Day",
-      description:
-        "Watch startups pitch their innovative ideas to investors and industry leaders.",
-      imageURL: "https://via.placeholder.com/300x200.png?text=Pitch+Day",
-      startTime: "2024-12-22T14:00:00",
-      endTime: "2024-12-22T18:00:00",
-    },
-    {
-      id: 7,
-      title: "Health and Wellness Expo",
-      description:
-        "Learn about fitness, nutrition, and mental health at this informative event.",
-      imageURL:
-        "https://via.placeholder.com/300x200.png?text=Health+Wellness+Expo",
-      startTime: "2024-12-25T10:00:00",
-      endTime: "2024-12-25T17:00:00",
-    },
-    {
-      id: 8,
-      title: "Film Festival 2024",
-      description:
-        "Celebrate cinema with screenings of films from around the world.",
-      imageURL: "https://via.placeholder.com/300x200.png?text=Film+Festival",
-      startTime: "2024-12-30T12:00:00",
-      endTime: "2024-12-30T22:00:00",
-    },
-  ];
+  // Fetch events function
+  const fetchEvents = async (): Promise<EventDetails[]> => {
+    const response = await axiosInstance.get("/events", {
+      withCredentials: true,
+    });
+    //dispatch(setEvents(response.data));
+    return response.data;
+  };
 
-  // Split events into trending and other events
-  const trendingEvents = events.slice(0, 4);
-  const otherEvents = events.slice(4);
+  // Use Tanstack Query to fetch events
+  const {
+    data: events,
+    isLoading,
+    isError,
+    error,
+  } = useQuery<EventDetails[], Error>({
+    queryKey: ["events"], // Ensure correct key
+    queryFn: fetchEvents, // Ensure correct fetch function
+    //it is not working as of now, I will fix it tomorrow
+    onSuccess: (data: EventDetails[]) => {
+      // Dispatch events to Redux store
+      dispatch(setEvents(data));
+      console.log("events dispatched to redux store");
+    },
+  } as UseQueryOptions<EventDetails[], Error>);
+
+  // Get events from Redux state
+  const reduxEvents = useSelector((state: RootState) => state.events.events);
 
   const handleCreateEvent = () => {
     navigate("/events/create");
   };
+
+  if (isLoading) return <div>Loading events...</div>;
+  if (isError) return <div>Error: {error.message}</div>;
+  if (!events || events.length === 0) return <div>No events found</div>;
+
+  // Split events into trending and other events
+  const trendingEvents = events.slice(0, 4);
+  const otherEvents = events.slice(4);
 
   return (
     <div className="mt-4 px-4 lg:px-24">
@@ -137,7 +98,6 @@ const Events = () => {
           ))}
         </div>
       </section>
-      <Outlet />
     </div>
   );
 };

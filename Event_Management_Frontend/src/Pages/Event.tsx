@@ -2,20 +2,19 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Calendar, Clock, Pencil, Trash2, ArrowLeft } from "lucide-react";
 import EventDetails from "../Types/EventDetails";
+import { useSelector } from "react-redux";
+import { RootState } from "@reduxjs/toolkit/query";
 
 const Event: React.FC = () => {
   const navigate = useNavigate();
   const { eventId } = useParams<{ eventId: string }>();
+  const eventIdNum = Number(eventId);
 
-  const event: EventDetails = {
-    id: 1,
-    title: "Tech Conference 2024",
-    description:
-      "A gathering of the brightest minds in technology to discuss trends, challenges, and innovations.",
-    imageURL: "https://via.placeholder.com/300x200.png?text=Tech+Conference",
-    startTime: "2024-11-25T09:00:00",
-    endTime: "2024-11-25T17:00:00",
-  };
+  const event: EventDetails = useSelector((state: RootState) =>
+    state.events.events.find((event: EventDetails) => event.id === eventIdNum)
+  );
+
+  console.log(event);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -44,6 +43,10 @@ const Event: React.FC = () => {
       navigate("/events");
     }
   };
+
+  if (!event) {
+    return <div>Event with {eventId} not found</div>;
+  }
 
   return (
     <div className="container mx-auto px-4 py-8 flex justify-center items-center">

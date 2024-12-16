@@ -1,6 +1,7 @@
 import { Formik, Form, FormikHelpers, Field } from "formik";
 import * as Yup from "yup";
 import { NavLink } from "react-router-dom";
+import axiosInstance from "../Utils/axiosInstance";
 
 // Define interface for form values
 interface LoginFormValues {
@@ -14,8 +15,12 @@ const LoginSchema = Yup.object().shape({
     .email("Invalid email address")
     .required("Email is required"),
   password: Yup.string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
+    .min(8, "Password must be at least 6 characters")
+    .required("Password is required")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+    ),
 });
 
 const LoginPage: React.FC = () => {
@@ -24,9 +29,8 @@ const LoginPage: React.FC = () => {
     { setSubmitting }: FormikHelpers<LoginFormValues>
   ) => {
     try {
-      // Implement your login logic here
+      //const response = axiosInstance.post("/login", values);
       console.log(values);
-      // Example: await loginUser(values)
     } catch (error) {
       // Handle login error
       console.error(error);
