@@ -15,7 +15,6 @@ const EventCard: React.FC<EventDetails> = ({
   const handleClick = (eventId: number): void => {
     const url = `/events/${eventId}`;
     navigate(url);
-    console.log(`http://localhost:5173${url}`);
   };
   return (
     <div

@@ -3,15 +3,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Calendar, Clock, Pencil, Trash2, ArrowLeft } from "lucide-react";
 import EventDetails from "../Types/EventDetails";
 import { useSelector } from "react-redux";
-import { RootState } from "@reduxjs/toolkit/query";
+import { RootState } from "../store";
 
 const Event: React.FC = () => {
   const navigate = useNavigate();
   const { eventId } = useParams<{ eventId: string }>();
   const eventIdNum = Number(eventId);
 
-  const event: EventDetails = useSelector((state: RootState) =>
-    state.events.events.find((event: EventDetails) => event.id === eventIdNum)
+  const event: EventDetails = useSelector(
+    (state: RootState) =>
+      state.events.eventList.find(
+        (event: EventDetails) => event.id === eventIdNum
+      )!
   );
 
   console.log(event);

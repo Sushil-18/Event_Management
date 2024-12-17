@@ -1,23 +1,26 @@
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import EventCard from "../Components/EventCard";
 import EventDetails from "../Types/EventDetails";
-import { setEvents } from "../store/eventSlice"; // Adjust import path as needed
+import { setEvents } from "../store/eventSlice";
 import axiosInstance from "../Utils/axiosInstance";
+import { useEffect } from "react";
+
+// Fetch events function
+const fetchEvents = async (): Promise<EventDetails[]> => {
+  const response = await axiosInstance.get("/events", {
+    withCredentials: true,
+  });
+  return response.data;
+};
 
 const Events = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  // Fetch events function
-  const fetchEvents = async (): Promise<EventDetails[]> => {
-    const response = await axiosInstance.get("/events", {
-      withCredentials: true,
-    });
-    //dispatch(setEvents(response.data));
-    return response.data;
-  };
+  //No need to get the state as we are directly fetching and showing the events.
+  /*   // Get events from Redux state
+  const reduxEvents = useSelector((state: RootState) => state.events.events); */
 
   // Use Tanstack Query to fetch events
   const {
@@ -26,18 +29,16 @@ const Events = () => {
     isError,
     error,
   } = useQuery<EventDetails[], Error>({
-    queryKey: ["events"], // Ensure correct key
-    queryFn: fetchEvents, // Ensure correct fetch function
-    //it is not working as of now, I will fix it tomorrow
-    onSuccess: (data: EventDetails[]) => {
-      // Dispatch events to Redux store
-      dispatch(setEvents(data));
-      console.log("events dispatched to redux store");
-    },
-  } as UseQueryOptions<EventDetails[], Error>);
+    queryKey: ["events"],
+    queryFn: fetchEvents,
+  });
 
-  // Get events from Redux state
-  const reduxEvents = useSelector((state: RootState) => state.events.events);
+  //Using effect to store the events data in redux store.
+  useEffect(() => {
+    if (events) {
+      dispatch(setEvents(events));
+    }
+  }, [events, dispatch]);
 
   const handleCreateEvent = () => {
     navigate("/events/create");
@@ -67,7 +68,7 @@ const Events = () => {
       <section className="mb-8">
         <h2 className="text-2xl font-bold mb-4 text-center">Trending Events</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {trendingEvents.map((event) => (
+          {trendingEvents.map((event: EventDetails) => (
             <EventCard
               key={event.id}
               id={event.id}
@@ -85,7 +86,7 @@ const Events = () => {
       <section>
         <h2 className="text-2xl font-bold mb-4 text-center">All Events</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {otherEvents.map((event) => (
+          {otherEvents.map((event: EventDetails) => (
             <EventCard
               key={event.id}
               id={event.id}

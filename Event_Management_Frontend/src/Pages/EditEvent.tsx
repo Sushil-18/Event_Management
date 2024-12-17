@@ -1,23 +1,34 @@
 import { useNavigate, useParams } from "react-router-dom";
 import EventDetails from "../Types/EventDetails";
-import { Field, Form, Formik, ErrorMessage } from "formik";
+import { Field, Form, Formik, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../store";
+import axiosInstance from "../Utils/axiosInstance";
+import { useMutation } from "@tanstack/react-query";
+import { setEvents, updateEvent } from "../store/eventSlice"; // Redux slice action
 
 const EditEvent = () => {
   const { eventId } = useParams<{ eventId: string }>();
+  const eventIdNum = Number(eventId);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const event: EventDetails = {
-    id: 1,
-    title: "Tech Conference 2024",
-    description:
-      "A gathering of the brightest minds in technology to discuss trends, challenges, and innovations.",
-    imageURL: "https://via.placeholder.com/300x200.png?text=Tech+Conference",
-    startTime: "2024-11-25T09:00:00",
-    endTime: "2024-11-25T17:00:00",
-  };
+  // Fetch event from the Redux store
+  const event = useSelector((state: RootState) =>
+    state.events.eventList.find((event) => event.id === eventIdNum)
+  );
 
-  // Validation schema
+  // Handle missing event gracefully
+  if (!event) {
+    return (
+      <div className="text-center text-red-500">
+        Event not found or has been deleted.
+      </div>
+    );
+  }
+
+  // Validation schema using Yup
   const validationSchema = Yup.object({
     title: Yup.string()
       .max(100, "Title cannot exceed 100 characters")
@@ -30,17 +41,54 @@ const EditEvent = () => {
       .required("Image URL is required"),
     startTime: Yup.date()
       .required("Start time is required")
-      .min(new Date(), "Start time must be in the future"),
+      .min(new Date(Date.now()), "Start time must be in the future"),
     endTime: Yup.date()
       .required("End time is required")
       .min(Yup.ref("startTime"), "End time must be after start time"),
   });
 
-  const handleSubmit = () => {
-    console.log("Form is submitted");
+  // Mutation function to update the event
+  const updateEventOnServer = async (
+    values: EventDetails,
+    { setSubmitting }: FormikHelpers<EventDetails>
+  ) => {
+    try {
+      const response = await axiosInstance.put(`/events/${eventIdNum}`, values);
+      return response.data;
+    } catch (error) {
+      console.error("Failed to update event", error);
+      throw error;
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  const handleCancle = () => {
+  // React-query mutation hook
+  const { mutate, isError, error } = useMutation({
+    updateEventOnServer,
+    onSuccess: (data: EventDetails) => {
+      // Dispatch action to update Redux store
+      dispatch(
+        setEvents((prevEvents) => {
+          return prevEvents.map((event: EventDetails) =>
+            event.id === data.id ? { ...prevEvents, ...data } : event
+          );
+        })
+      );
+      navigate(-1); // Navigate back to the events list
+    },
+  });
+
+  // Form submission handler
+  const handleSubmit = (
+    values: EventDetails,
+    formikHelpers: FormikHelpers<EventDetails>
+  ) => {
+    mutate(values, formikHelpers);
+  };
+
+  // Cancel button handler
+  const handleCancel = () => {
     navigate(-1);
   };
 
@@ -55,7 +103,7 @@ const EditEvent = () => {
           onSubmit={handleSubmit}
           validationSchema={validationSchema}
         >
-          {() => (
+          {({ isSubmitting }) => (
             <Form>
               {/* Title Field */}
               <div className="mb-4">
@@ -162,21 +210,29 @@ const EditEvent = () => {
                 />
               </div>
 
-              {/* Submit Button */}
+              {/* Submit & Cancel Buttons */}
               <div className="flex justify-end gap-8">
                 <button
                   type="submit"
+                  disabled={isSubmitting}
                   className="bg-orange-500 text-white px-4 min-w-20 py-2 rounded hover:bg-orange-600 transition-colors"
                 >
-                  Edit
+                  {isSubmitting ? "Saving..." : "Save"}
                 </button>
                 <button
-                  onClick={handleCancle}
+                  type="button"
+                  onClick={handleCancel}
                   className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition-colors"
                 >
-                  Cancle
+                  Cancel
                 </button>
               </div>
+
+              {isError && (
+                <div className="text-red-500 mt-2">
+                  {error instanceof Error ? error.message : "Failed to update"}
+                </div>
+              )}
             </Form>
           )}
         </Formik>
