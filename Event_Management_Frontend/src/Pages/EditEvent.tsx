@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
 import axiosInstance from "../Utils/axiosInstance";
 import { useMutation } from "@tanstack/react-query";
-import { setEvents, updateEvent } from "../store/eventSlice"; // Redux slice action
+import { setEvents, updateEvent, updateEvents } from "../store/eventSlice"; // Redux slice action
 
 const EditEvent = () => {
   const { eventId } = useParams<{ eventId: string }>();
@@ -48,43 +48,29 @@ const EditEvent = () => {
   });
 
   // Mutation function to update the event
-  const updateEventOnServer = async (
-    values: EventDetails,
-    { setSubmitting }: FormikHelpers<EventDetails>
-  ) => {
+  const updateEventOnServer = async (values: EventDetails) => {
     try {
       const response = await axiosInstance.put(`/events/${eventIdNum}`, values);
       return response.data;
     } catch (error) {
       console.error("Failed to update event", error);
       throw error;
-    } finally {
-      setSubmitting(false);
     }
   };
 
   // React-query mutation hook
   const { mutate, isError, error } = useMutation({
-    updateEventOnServer,
+    mutationFn: updateEventOnServer,
     onSuccess: (data: EventDetails) => {
       // Dispatch action to update Redux store
-      dispatch(
-        setEvents((prevEvents) => {
-          return prevEvents.map((event: EventDetails) =>
-            event.id === data.id ? { ...prevEvents, ...data } : event
-          );
-        })
-      );
+      dispatch(updateEvents(data));
       navigate(-1); // Navigate back to the events list
     },
   });
 
   // Form submission handler
-  const handleSubmit = (
-    values: EventDetails,
-    formikHelpers: FormikHelpers<EventDetails>
-  ) => {
-    mutate(values, formikHelpers);
+  const handleSubmit = (values: EventDetails) => {
+    mutate(values);
   };
 
   // Cancel button handler
