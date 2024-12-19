@@ -1,5 +1,5 @@
 export default interface EventDetails {
-  id: number; // Unique identifier for the event
+  id?: number; // Unique identifier for the event
   title: string; // Title of the event
   description: string; // Description of the event
   imageURL: string; // URL to the event's image

@@ -1,16 +1,17 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
-interface EventDetails {
-  title: string;
-  description: string;
-  imageURL: string;
-  startTime: string;
-  endTime: string;
-}
+import { Import } from "lucide-react";
+import EventDetails from "../Types/EventDetails";
+import axiosInstance from "../Utils/axiosInstance";
+import { useMutation } from "@tanstack/react-query";
+import { useDispatch } from "react-redux";
+import { addEvent } from "../store/eventSlice";
+import { useNavigate } from "react-router-dom";
 
 const CreateEventForm: React.FC<{}> = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   // Validation schema
   const validationSchema = Yup.object({
     title: Yup.string()
@@ -39,10 +40,32 @@ const CreateEventForm: React.FC<{}> = () => {
     endTime: "",
   };
 
+  const createEventOnServer = async (values: EventDetails) => {
+    try {
+      const response = await axiosInstance.post("events/new", values);
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const { mutate, isError, error } = useMutation({
+    mutationFn: createEventOnServer,
+    onSuccess: (data: EventDetails) => {
+      dispatch(addEvent(data));
+      navigate("/events");
+    },
+  });
+
   // Form submit handler
   const handleSubmit = (values: EventDetails) => {
-    console.log("Form submitted");
+    mutate(values);
   };
+
+  if (error) {
+    return <div>Error occured while creating event</div>;
+  }
 
   return (
     <div className="max-w-2xl mt-4 mx-auto p-4 bg-orange-100 shadow-lg rounded-lg">

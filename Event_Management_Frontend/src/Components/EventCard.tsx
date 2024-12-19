@@ -1,6 +1,7 @@
 import React from "react";
 import EventDetails from "../Types/EventDetails";
 import { useNavigate } from "react-router-dom";
+import { Calendar, Clock } from "lucide-react";
 
 const EventCard: React.FC<EventDetails> = ({
   id,
@@ -15,6 +16,22 @@ const EventCard: React.FC<EventDetails> = ({
   const handleClick = (eventId: number): void => {
     const url = `/events/${eventId}`;
     navigate(url);
+  };
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   };
   return (
     <div
@@ -48,21 +65,18 @@ const EventCard: React.FC<EventDetails> = ({
 
         {/* Date and Time - Consistent positioning at bottom */}
         <div className="flex items-center text-gray-700 mt-auto">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 mr-2 text-blue-500"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-              clipRule="evenodd"
-            />
-          </svg>
-          <span className="text-sm">
-            {startTime} | {endTime}
-          </span>
+          <div className="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-6 mb-6">
+            <div className="flex items-center space-x-2">
+              <Calendar className="text-blue-500 w-5 h-5" />
+              <span className="text-gray-600">{formatDate(startTime)}</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Clock className="text-green-500 w-5 h-5" />
+              <span className="text-gray-600">
+                {formatTime(startTime)} - {formatTime(endTime)}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
