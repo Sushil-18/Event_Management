@@ -67,4 +67,18 @@ public class EventServiceImp implements EventService {
 
         return ResponseEntity.ok(eventResponseDTO);
     }
+
+    @Override
+    public ResponseEntity<EventResponseDTO> deleteEvent(Long id) {
+        Optional<Event> event = eventRepository.findById(id);
+
+        if(event.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        EventResponseDTO eventResponseDTO = modelMapper.map(event,EventResponseDTO.class);
+        eventRepository.deleteById(id);
+
+        return ResponseEntity.ok(eventResponseDTO);
+    }
+
 }

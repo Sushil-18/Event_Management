@@ -4,6 +4,9 @@ import { Calendar, Clock, Pencil, Trash2, ArrowLeft } from "lucide-react";
 import EventDetails from "../Types/EventDetails";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
+import axiosInstance from "../Utils/axiosInstance";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosRequestConfig } from "axios";
 
 const Event: React.FC = () => {
   const navigate = useNavigate();
@@ -17,7 +20,25 @@ const Event: React.FC = () => {
       )!
   );
 
-  console.log(event);
+  const deleteEventOnServer = async (eventId: number) => {
+    try {
+      const response = await axiosInstance.delete(
+        `/events/${eventIdNum}`,
+        eventId
+      );
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const { mutate, isError, error } = useMutation({
+    mutationFn: deleteEventOnServer,
+    onSuccess: () => {
+      navigate("/events");
+    },
+  });
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -38,17 +59,17 @@ const Event: React.FC = () => {
 
   const handleBackClick = () => navigate("/events");
   const handleEditEvent = () => navigate(`/events/${eventId}/edit`);
+
   const handleDeleteEvent = () => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this event?"
-    );
-    if (confirmDelete) {
-      navigate("/events");
-    }
+    mutate(event.id);
   };
 
   if (!event) {
     return <div>Event with {eventId} not found</div>;
+  }
+
+  if (error) {
+    return <div>Error while deletin the event with {eventId}</div>;
   }
 
   return (
