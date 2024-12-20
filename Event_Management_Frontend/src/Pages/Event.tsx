@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import axiosInstance from "../Utils/axiosInstance";
 import { useMutation } from "@tanstack/react-query";
-import { AxiosRequestConfig } from "axios";
 
 const Event: React.FC = () => {
   const navigate = useNavigate();
@@ -18,6 +17,10 @@ const Event: React.FC = () => {
       state.events.eventList.find(
         (event: EventDetails) => event.id === eventIdNum
       )!
+  );
+
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isAuthenticated
   );
 
   const deleteEventOnServer = async (eventId: number) => {
@@ -113,20 +116,22 @@ const Event: React.FC = () => {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex justify-center space-x-4 mb-6">
-            <button
-              onClick={handleEditEvent}
-              className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
-            >
-              <Pencil className="mr-2 w-5 h-5" /> Edit Event
-            </button>
-            <button
-              onClick={handleDeleteEvent}
-              className="flex items-center bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
-            >
-              <Trash2 className="mr-2 w-5 h-5" /> Delete Event
-            </button>
-          </div>
+          {isAuthenticated && (
+            <div className="flex justify-center space-x-4 mb-6">
+              <button
+                onClick={handleEditEvent}
+                className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+              >
+                <Pencil className="mr-2 w-5 h-5" /> Edit Event
+              </button>
+              <button
+                onClick={handleDeleteEvent}
+                className="flex items-center bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
+              >
+                <Trash2 className="mr-2 w-5 h-5" /> Delete Event
+              </button>
+            </div>
+          )}
 
           {/* Back Button */}
           <button

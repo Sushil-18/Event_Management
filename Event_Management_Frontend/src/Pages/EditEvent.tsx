@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
 import axiosInstance from "../Utils/axiosInstance";
 import { useMutation } from "@tanstack/react-query";
-import { setEvents, updateEvent, updateEvents } from "../store/eventSlice"; // Redux slice action
+import { setEvents, updateEvents } from "../store/eventSlice"; // Redux slice action
 
 const EditEvent = () => {
   const { eventId } = useParams<{ eventId: string }>();

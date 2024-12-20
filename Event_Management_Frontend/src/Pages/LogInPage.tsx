@@ -1,7 +1,9 @@
 import { Formik, Form, FormikHelpers, Field } from "formik";
 import * as Yup from "yup";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import axiosInstance from "../Utils/axiosInstance";
+import { useDispatch, useSelector } from "react-redux";
+import { setAuthentication } from "../store/authSlice";
 
 // Define interface for form values
 interface LoginFormValues {
@@ -24,13 +26,17 @@ const LoginSchema = Yup.object().shape({
 });
 
 const LoginPage: React.FC = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleSubmit = async (
     values: LoginFormValues,
     { setSubmitting }: FormikHelpers<LoginFormValues>
   ) => {
     try {
-      //const response = axiosInstance.post("/login", values);
-      console.log(values);
+      const response = await axiosInstance.post("/login", values);
+      console.log(response.status);
+      dispatch(setAuthentication());
+      navigate("/events");
     } catch (error) {
       // Handle login error
       console.error(error);
