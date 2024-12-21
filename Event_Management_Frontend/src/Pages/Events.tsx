@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import EventCard from "../Components/EventCard";
 import EventDetails from "../Types/EventDetails";
 import { setEvents } from "../store/eventSlice";
 import axiosInstance from "../Utils/axiosInstance";
 import { useEffect } from "react";
-
+import { RootState } from "../store";
 // Fetch events function
 const fetchEvents = async (): Promise<EventDetails[]> => {
   const response = await axiosInstance.get("/events", {
@@ -18,6 +18,9 @@ const fetchEvents = async (): Promise<EventDetails[]> => {
 const Events = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isAuthenticated
+  );
   //No need to get the state as we are directly fetching and showing the events.
   /*   // Get events from Redux state
   const reduxEvents = useSelector((state: RootState) => state.events.events); */
@@ -55,14 +58,16 @@ const Events = () => {
   return (
     <div className="mt-4 px-4 lg:px-24">
       {/* Create Event Button */}
-      <div className="flex justify-end mb-6">
-        <button
-          onClick={handleCreateEvent}
-          className="bg-orange-200 text-black px-4 py-2 rounded-lg shadow hover:bg-orange-300 transition-all"
-        >
-          + Create Event
-        </button>
-      </div>
+      {isAuthenticated && (
+        <div className="flex justify-end mb-6">
+          <button
+            onClick={handleCreateEvent}
+            className="bg-orange-200 text-black px-4 py-2 rounded-lg shadow hover:bg-orange-300 transition-all"
+          >
+            + Create Event
+          </button>
+        </div>
+      )}
 
       {/* Trending Events */}
       <section className="mb-8">

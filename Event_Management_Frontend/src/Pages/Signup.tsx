@@ -1,6 +1,7 @@
 import { Field, Form, Formik, FormikHelpers } from "formik";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import axiosInstance from "../Utils/axiosInstance";
 
 interface FormData {
   firstName: string;
@@ -34,13 +35,16 @@ const signupSchema = Yup.object().shape({
 });
 
 const Signup: React.FC<{}> = () => {
+  const navigate = useNavigate();
   const handleSubmit = async (
     values: FormData,
     { setSubmitting }: FormikHelpers<FormData>
   ) => {
     try {
       // Handle form submission logic
-      console.log(values);
+      const response = await axiosInstance.post("/signup", values);
+      console.log(response.data);
+      navigate("/login");
     } catch (error) {
       console.error(error);
     } finally {
@@ -65,14 +69,7 @@ const Signup: React.FC<{}> = () => {
           validationSchema={signupSchema}
           onSubmit={handleSubmit}
         >
-          {({
-            errors,
-            touched,
-            isSubmitting,
-            handleChange,
-            handleBlur,
-            values,
-          }) => (
+          {({ errors, touched, isSubmitting }) => (
             <Form>
               <div className="mb-6">
                 <div className="mb-4">
@@ -191,6 +188,7 @@ const Signup: React.FC<{}> = () => {
               </div>
               <button
                 type="submit"
+                disabled={isSubmitting}
                 className={`w-full bg-orange-500 py-3 text-white font-semibold rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400 ${
                   isSubmitting ? "opacity-50 cursor-not-allowed" : ""
                 }`}

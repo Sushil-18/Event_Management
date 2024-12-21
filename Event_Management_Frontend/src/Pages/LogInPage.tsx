@@ -4,6 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import axiosInstance from "../Utils/axiosInstance";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthentication } from "../store/authSlice";
+import { useState } from "react";
 
 // Define interface for form values
 interface LoginFormValues {
@@ -26,6 +27,7 @@ const LoginSchema = Yup.object().shape({
 });
 
 const LoginPage: React.FC = () => {
+  const [showPass, setShowPass] = useState<boolean>(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleSubmit = async (
@@ -91,15 +93,52 @@ const LoginPage: React.FC = () => {
                     Password
                   </label>
                   <Field
-                    type="password"
+                    type={showPass ? "text" : "password"}
                     name="password"
                     placeholder="***********"
-                    className={`w-full mt-2 p-3 border bg-orange-50 outline-none ${
+                    className={`w-full mt-2 p-3 border bg-orange-50 outline-none  ${
                       errors.password && touched.password
                         ? "border-red-500"
                         : "border-orange-300"
                     } rounded-md focus:ring-orange-500 focus:border-orange-500`}
                   />
+                  {showPass ? (
+                    <svg
+                      onClick={() => setShowPass(!showPass)}
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      className="lucide lucide-eye-off text-orange-400 relative left-[21rem] bottom-[2.3rem]"
+                    >
+                      <path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" />
+                      <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
+                      <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143" />
+                      <path d="m2 2 20 20" />
+                    </svg>
+                  ) : (
+                    <svg
+                      onClick={() => setShowPass(!showPass)}
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      className="lucide lucide-eye text-orange-400 relative left-[21rem] bottom-[2.3rem]"
+                    >
+                      <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  )}
                   {errors.password && touched.password && (
                     <p className="text-red-500 text-xs mt-1">
                       {errors.password}

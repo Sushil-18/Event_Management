@@ -14,7 +14,6 @@ const eventSlice = createSlice({
   reducers: {
     // Set all events
     setEvents: (state, action: PayloadAction<EventDetails[]>) => {
-      console.log("Events updated");
       state.eventList = action.payload;
     },
     updateEvents: (state, action: PayloadAction<EventDetails>) => {
