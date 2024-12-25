@@ -4,7 +4,7 @@ import com.example.Event_Management.dto.EventRequestDTO;
 import com.example.Event_Management.dto.EventResponseDTO;
 import com.example.Event_Management.entities.Event;
 import com.example.Event_Management.repository.EventRepository;
-import com.example.Event_Management.servcies.EventService;
+import com.example.Event_Management.services.EventService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;

@@ -2,7 +2,7 @@ package com.example.Event_Management.controllers;
 
 import com.example.Event_Management.dto.EventRequestDTO;
 import com.example.Event_Management.dto.EventResponseDTO;
-import com.example.Event_Management.servcies.EventService;
+import com.example.Event_Management.services.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

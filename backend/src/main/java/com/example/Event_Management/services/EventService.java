@@ -1,4 +1,4 @@
-package com.example.Event_Management.servcies;
+package com.example.Event_Management.services;
 
 import com.example.Event_Management.dto.EventRequestDTO;
 import com.example.Event_Management.dto.EventResponseDTO;

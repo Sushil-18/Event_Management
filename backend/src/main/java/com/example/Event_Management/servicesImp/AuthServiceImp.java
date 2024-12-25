@@ -7,7 +7,7 @@ import com.example.Event_Management.entities.User;
 import com.example.Event_Management.excpetions.UserAlreadyExistsException;
 import com.example.Event_Management.excpetions.UserRegistrationException;
 import com.example.Event_Management.repository.UserRepository;
-import com.example.Event_Management.servcies.AuthService;
+import com.example.Event_Management.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -3,7 +3,7 @@ package com.example.Event_Management.controllers;
 import com.example.Event_Management.dto.LogInDTO;
 import com.example.Event_Management.dto.SignUpDTO;
 import com.example.Event_Management.dto.SignUpResponseDTO;
-import com.example.Event_Management.servcies.AuthService;
+import com.example.Event_Management.services.AuthService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
