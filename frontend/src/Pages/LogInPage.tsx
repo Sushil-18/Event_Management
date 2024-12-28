@@ -35,13 +35,40 @@ const LoginPage: React.FC = () => {
     { setSubmitting }: FormikHelpers<LoginFormValues>
   ) => {
     try {
-      const response = await axiosInstance.post("/login", values);
-      console.log(response.status);
-      dispatch(setAuthentication());
-      navigate("/events");
-    } catch (error) {
-      // Handle login error
-      console.error(error);
+      const loginData = {
+        username: values.username,
+        password: values.password,
+      };
+
+      console.log("Attempting login with:", loginData);
+
+      const response = await axiosInstance.post("/login", loginData, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
+
+      console.log("Login response:", response);
+
+      if (response.data && response.data.token) {
+        // Store token
+        localStorage.setItem("jwtToken", response.data.token);
+        // Update authorization header for future requests
+        axiosInstance.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.data.token}`;
+        dispatch(setAuthentication());
+        navigate("/events");
+      } else {
+        console.error("No token in response:", response);
+      }
+    } catch (error: any) {
+      console.error("Login error:", {
+        status: error.response?.status,
+        data: error.response?.data,
+        headers: error.response?.headers,
+      });
     } finally {
       setSubmitting(false);
     }
