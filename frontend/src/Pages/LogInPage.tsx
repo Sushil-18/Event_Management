@@ -42,10 +42,9 @@ const LoginPage: React.FC = () => {
 
       console.log("Attempting login with:", loginData);
 
-      const response = await axiosInstance.post("/login", loginData, {
+      const response = await axiosInstance.post("/auth/login", loginData, {
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json",
         },
       });
 

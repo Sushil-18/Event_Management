@@ -38,8 +38,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Add CORS support
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/signup").permitAll()
-                        .requestMatchers("/login").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/events").permitAll()
                         .requestMatchers("/events/{eventId}").permitAll()
                         .anyRequest().authenticated()

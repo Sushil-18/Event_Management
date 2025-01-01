@@ -1,6 +1,7 @@
 package com.example.Event_Management.controllers;
 
 import com.example.Event_Management.dto.LogInDTO;
+import com.example.Event_Management.dto.LoginResponse;
 import com.example.Event_Management.dto.SignUpDTO;
 import com.example.Event_Management.dto.SignUpResponseDTO;
 import com.example.Event_Management.services.AuthService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Data
 @RequiredArgsConstructor
+@RequestMapping("/auth")
 public class AuthController {
     private final AuthService authService;
 
@@ -33,17 +35,18 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LogInDTO logindto) throws Exception {
+    public ResponseEntity<LoginResponse> login(@RequestBody LogInDTO logindto) throws Exception {
         try{
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(logindto.getEmail(),logindto.getPassword()));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(logindto.getUsername(),logindto.getPassword()));
         }
         catch (Exception e){
             throw new Exception("Incorrect username or password",e);
         }
 
-        final UserDetails userDetails = userDetailsServiceImp.loadUserByUsername(logindto.getEmail());
+        final UserDetails userDetails = userDetailsServiceImp.loadUserByUsername(logindto.getUsername());
         final String jwt = jwtUtil.generateToken(userDetails);
-        return ResponseEntity.ok(jwt);
+
+        return ResponseEntity.ok(new LoginResponse(jwt));
     }
 
     
