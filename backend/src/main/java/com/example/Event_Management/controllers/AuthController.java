@@ -1,12 +1,13 @@
 package com.example.Event_Management.controllers;
 
 import com.example.Event_Management.dto.LogInDTO;
-import com.example.Event_Management.dto.LoginResponse;
 import com.example.Event_Management.dto.SignUpDTO;
 import com.example.Event_Management.dto.SignUpResponseDTO;
 import com.example.Event_Management.services.AuthService;
 import com.example.Event_Management.servicesImp.UserDetailsServiceImp;
 import com.example.Event_Management.util.JwtUtil;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LogInDTO logindto) throws Exception {
+    public ResponseEntity<String> login(@RequestBody LogInDTO logindto , HttpServletResponse response) throws Exception {
         try{
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(logindto.getUsername(),logindto.getPassword()));
         }
@@ -46,8 +47,30 @@ public class AuthController {
         final UserDetails userDetails = userDetailsServiceImp.loadUserByUsername(logindto.getUsername());
         final String jwt = jwtUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new LoginResponse(jwt));
+        Cookie cookie = new Cookie("token",jwt);
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(60*60);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
+        return ResponseEntity.ok("Logged in successfully");
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> Logout(HttpServletResponse response){
+        try{
+            Cookie cookie = new Cookie("token",null);
+            cookie.setHttpOnly(true);
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
+
+             return ResponseEntity.ok("Logged out Successfully");
+        }
+        catch (Exception e){
+            throw new RuntimeException("Error while logging out",e);
+        }
+    }
+
 
     
 }

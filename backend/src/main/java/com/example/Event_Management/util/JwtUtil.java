@@ -17,7 +17,7 @@ import java.util.function.Function;
 public class JwtUtil {
     // This should be stored securely in production
     private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private static final long JWT_VALIDITY = 5 * 60 * 60 * 1000; // 5 hours
+    private static final long JWT_VALIDITY =  5 * 60 * 60 * 1000; // 5 hours
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();

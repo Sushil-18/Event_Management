@@ -50,13 +50,13 @@ const LoginPage: React.FC = () => {
 
       console.log("Login response:", response);
 
-      if (response.data && response.data.token) {
+      if (response.status === 200) {
         // Store token
-        localStorage.setItem("jwtToken", response.data.token);
+        // localStorage.setItem("jwtToken", response.data.token);
         // Update authorization header for future requests
-        axiosInstance.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data.token}`;
+        // axiosInstance.defaults.headers.common[
+        //  "Authorization"
+        // ] = `Bearer ${response.data.token}`;
         dispatch(setAuthentication());
         navigate("/events");
       } else {

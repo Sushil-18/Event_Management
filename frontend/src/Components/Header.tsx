@@ -1,12 +1,12 @@
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FaUserCircle } from "react-icons/fa";
 import { NavLink, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState, MouseEvent } from "react";
 import Menu from "../Pages/Menu";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
-import { Root } from "react-dom/client";
 import { removeAuthentication } from "../store/authSlice";
+import axiosInstance from "../Utils/axiosInstance";
 const Header = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const location = useLocation();
@@ -22,12 +22,15 @@ const Header = () => {
   function handleDrawerClose() {
     setIsDrawerOpen((prevDrawerState) => !prevDrawerState);
   }
-  function handleLogout(
-    event: MouseEvent<HTMLButtonElement, MouseEvent>
-  ): void {
-    dispatch(removeAuthentication());
-    document.cookie = "JSESSIONID=; Max-Age=0; path=/; domain=localhost";
-    console.log("Cookie JSESSIONID removed");
+  async function handleLogout(event: MouseEvent<HTMLButtonElement>) {
+    try {
+      const response = await axiosInstance.post("/auth/logout");
+      if (response.status === 200) {
+        dispatch(removeAuthentication());
+      }
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
   }
 
   return (
