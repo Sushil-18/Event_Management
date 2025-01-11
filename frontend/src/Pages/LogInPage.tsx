@@ -5,6 +5,7 @@ import axiosInstance from "../Utils/axiosInstance";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthentication } from "../store/authSlice";
 import { useState } from "react";
+import { showModal } from "../store/modalSlice";
 
 // Define interface for form values
 interface LoginFormValues {
@@ -63,11 +64,7 @@ const LoginPage: React.FC = () => {
         console.error("No token in response:", response);
       }
     } catch (error: any) {
-      console.error("Login error:", {
-        status: error.response?.status,
-        data: error.response?.data,
-        headers: error.response?.headers,
-      });
+      dispatch(showModal(error));
     } finally {
       setSubmitting(false);
     }
