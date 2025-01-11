@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
 import { removeAuthentication } from "../store/authSlice";
 import axiosInstance from "../Utils/axiosInstance";
+import { showModal } from "../store/modalSlice";
 const Header = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const location = useLocation();
@@ -29,7 +30,7 @@ const Header = () => {
         dispatch(removeAuthentication());
       }
     } catch (error) {
-      console.error("Error logging out:", error);
+      dispatch(showModal(error));
     }
   }
 

@@ -7,6 +7,7 @@ import { RootState } from "../store";
 import axiosInstance from "../Utils/axiosInstance";
 import { useMutation } from "@tanstack/react-query";
 import { setEvents, updateEvents } from "../store/eventSlice"; // Redux slice action
+import { showModal } from "../store/modalSlice";
 
 const EditEvent = () => {
   const { eventId } = useParams<{ eventId: string }>();
@@ -54,7 +55,7 @@ const EditEvent = () => {
       return response.data;
     } catch (error) {
       console.error("Failed to update event", error);
-      throw error;
+      dispatch(showModal(error));
     }
   };
 

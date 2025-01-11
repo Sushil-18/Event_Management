@@ -10,6 +10,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { addEvent } from "../store/eventSlice";
 import { useNavigate } from "react-router-dom";
+import { showModal } from "../store/modalSlice";
 
 // Custom styles for react-datepicker
 const customStyles = `
@@ -56,7 +57,7 @@ const CreateEventForm: React.FC = () => {
       const response = await axiosInstance.post("events/new", values);
       return response.data;
     } catch (error) {
-      throw error;
+      dispatch(showModal(error));
     }
   };
 
@@ -75,10 +76,6 @@ const CreateEventForm: React.FC = () => {
   const handleCancel = () => {
     navigate(-1);
   };
-
-  if (error) {
-    return <div>Error occurred while creating event</div>;
-  }
 
   const DateTimeField: React.FC<{
     name: string;

@@ -2,13 +2,15 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Calendar, Clock, Pencil, Trash2, ArrowLeft } from "lucide-react";
 import EventDetails from "../Types/EventDetails";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
 import axiosInstance from "../Utils/axiosInstance";
 import { useMutation } from "@tanstack/react-query";
+import { showModal } from "../store/modalSlice";
 
 const Event: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { eventId } = useParams<{ eventId: string }>();
   const eventIdNum = Number(eventId);
 
@@ -32,7 +34,7 @@ const Event: React.FC = () => {
       console.log(response.data);
       return response.data;
     } catch (error) {
-      console.log(error);
+      dispatch(showModal(error));
     }
   };
 
@@ -69,10 +71,6 @@ const Event: React.FC = () => {
 
   if (!event) {
     return <div>Event with {eventId} not found</div>;
-  }
-
-  if (error) {
-    return <div>Error while deletin the event with {eventId}</div>;
   }
 
   return (

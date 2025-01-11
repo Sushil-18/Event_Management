@@ -2,6 +2,8 @@ import { Field, Form, Formik, FormikHelpers } from "formik";
 import { NavLink, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import axiosInstance from "../Utils/axiosInstance";
+import { useDispatch } from "react-redux";
+import { showModal } from "../store/modalSlice";
 
 interface FormData {
   firstName: string;
@@ -36,6 +38,7 @@ const signupSchema = Yup.object().shape({
 
 const Signup: React.FC<{}> = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleSubmit = async (
     values: FormData,
     { setSubmitting }: FormikHelpers<FormData>
@@ -46,7 +49,7 @@ const Signup: React.FC<{}> = () => {
       console.log(response.data);
       navigate("/login");
     } catch (error) {
-      console.error(error);
+      dispatch(showModal(error));
     } finally {
       setSubmitting(false);
     }
