@@ -13,6 +13,14 @@
     "moduleDetection": "force",
     "noEmit": true,
 
+    "compilerOptions": {
+      "composite": true,
+      "skipLibCheck": true,
+      "module": "ESNext",
+      "moduleResolution": "bundler",
+      "allowSyntheticDefaultImports": true
+    },
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
