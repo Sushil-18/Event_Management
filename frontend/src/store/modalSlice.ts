@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-import { string } from "yup";
 import { RootState } from ".";
 
-const initialState = {
+interface ModalState {
+  isOpen: boolean;
+  error: { message: string } | null;
+}
+const initialState: ModalState = {
   isOpen: false,
-  error: string,
+  error: null,
 };
 
 const modalSlice = createSlice({

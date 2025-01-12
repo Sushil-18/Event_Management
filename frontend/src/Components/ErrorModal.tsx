@@ -10,11 +10,13 @@ const ErrorModal = () => {
 
   return (
     <div
+      data-testid="modal-backdrop"
       className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50 
         animate-[fadeIn_0.2s_ease-out]"
       onClick={() => dispatch(hideModal())}
     >
       <div
+        data-testid="modal-content"
         className="bg-white rounded-lg shadow-xl w-full max-w-md relative 
           animate-[slideIn_0.3s_ease-out_forwards] opacity-0 scale-95
           transform transition-all duration-200 hover:scale-[1.02]"

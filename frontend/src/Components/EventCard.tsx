@@ -35,7 +35,7 @@ const EventCard: React.FC<EventDetails> = ({
   };
   return (
     <div
-      onClick={() => handleClick(id)}
+      onClick={() => id && handleClick(id)}
       className="bg-white rounded-lg shadow-lg overflow-hidden w-full h-[400px] flex flex-col transform transition-all duration-300 hover:scale-105"
     >
       {/* Image Section - Fixed Height */}
