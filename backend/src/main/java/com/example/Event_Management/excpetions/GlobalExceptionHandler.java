@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ApiError> handleBodRequestException(BadRequestException exception){
-        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, exception.getMessage(),exception.getLocalizedMessage());
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, exception.getMessage(),"Please use correct credentials");
         return new ResponseEntity<>(apiError,HttpStatus.BAD_REQUEST);
     }
 

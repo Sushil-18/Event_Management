@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage, FieldProps } from "formik";
 import * as Yup from "yup";
 import { Calendar } from "lucide-react";
 import DatePicker from "react-datepicker";
@@ -61,7 +61,7 @@ const CreateEventForm: React.FC = () => {
     }
   };
 
-  const { mutate, isError, error } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: createEventOnServer,
     onSuccess: (data: EventDetails) => {
       dispatch(addEvent(data));
@@ -76,12 +76,17 @@ const CreateEventForm: React.FC = () => {
   const handleCancel = () => {
     navigate(-1);
   };
-
-  const DateTimeField: React.FC<{
+  interface DateTimeFieldProps {
     name: string;
     label: string;
     minDate?: Date;
-  }> = ({ name, label, minDate }) => (
+  }
+
+  const DateTimeField: React.FC<DateTimeFieldProps> = ({
+    name,
+    label,
+    minDate,
+  }) => (
     <div className="mb-4">
       <label htmlFor={name} className="block font-semibold text-orange-700">
         {label}
@@ -89,11 +94,10 @@ const CreateEventForm: React.FC = () => {
       <div className="relative">
         <style>{customStyles}</style>
         <Field name={name}>
-          {({ field, form: { setFieldValue } }) => (
+          {({ field, form: { setFieldValue } }: FieldProps) => (
             <DatePicker
-              {...field}
               selected={field.value ? new Date(field.value) : null}
-              onChange={(date) => setFieldValue(name, date)}
+              onChange={(date: Date | null) => setFieldValue(name, date)}
               showTimeSelect
               dateFormat="MMMM d, yyyy h:mm aa"
               className="w-full p-2 pl-10 border border-orange-300 rounded bg-orange-50 focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
@@ -124,7 +128,6 @@ const CreateEventForm: React.FC = () => {
       >
         {({ values }) => (
           <Form>
-            {/* Title Field */}
             <div className="mb-4">
               <label
                 htmlFor="title"
@@ -146,7 +149,6 @@ const CreateEventForm: React.FC = () => {
               />
             </div>
 
-            {/* Description Field */}
             <div className="mb-4">
               <label
                 htmlFor="description"
@@ -168,7 +170,6 @@ const CreateEventForm: React.FC = () => {
               />
             </div>
 
-            {/* Image URL Field */}
             <div className="mb-4">
               <label
                 htmlFor="imageURL"
@@ -190,7 +191,6 @@ const CreateEventForm: React.FC = () => {
               />
             </div>
 
-            {/* Datetime Fields */}
             <DateTimeField
               name="startTime"
               label="Start Time"
@@ -204,7 +204,6 @@ const CreateEventForm: React.FC = () => {
               }
             />
 
-            {/* Submit and Cancel Buttons */}
             <div className="flex justify-end gap-8">
               <button
                 type="button"
