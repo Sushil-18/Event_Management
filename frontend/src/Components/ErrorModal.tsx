@@ -8,6 +8,8 @@ const ErrorModal = () => {
 
   if (!isOpen) return null;
 
+  const closeModal = () => {};
+
   return (
     <div
       data-testid="modal-backdrop"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Calendar, Clock, Pencil, Trash2, ArrowLeft } from "lucide-react";
 import EventDetails from "../Types/EventDetails";
@@ -7,6 +7,8 @@ import { RootState } from "../store";
 import axiosInstance from "../Utils/axiosInstance";
 import { useMutation } from "@tanstack/react-query";
 import { showModal } from "../store/modalSlice";
+import { AddtoRecent } from "../store/eventSlice";
+import ErrorModal from "../Components/ErrorModal";
 
 const Event: React.FC = () => {
   const navigate = useNavigate();
@@ -21,6 +23,10 @@ const Event: React.FC = () => {
       )!
   );
 
+  useEffect(() => {
+    dispatch(AddtoRecent(event));
+  }, []);
+
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
   );
@@ -31,7 +37,7 @@ const Event: React.FC = () => {
         `/events/${eventIdNum}`,
         eventId
       );
-      console.log(response.data);
+      //console.log(response.data);
       return response.data;
     } catch (error) {
       dispatch(showModal(error));
@@ -70,7 +76,23 @@ const Event: React.FC = () => {
   };
 
   if (!event) {
-    return <div>Event with {eventId} not found</div>;
+    const error = {
+      status: 404,
+      message: `Event with id ${eventId} does not exists`,
+      error: `Event with id ${eventId} does not exists`,
+    };
+    dispatch(showModal(error));
+    return (
+      <div className="flex flex-col gap-4 items-center my-8">
+        <p>Event with id {eventId} does not exists</p>
+        <button
+          onClick={handleBackClick}
+          className="flex items-center text-gray-700 hover:text-blue-500 transition-colors"
+        >
+          <ArrowLeft className="mr-2 w-5 h-5" /> Back to Events
+        </button>
+      </div>
+    );
   }
 
   return (
