@@ -8,7 +8,6 @@ import axiosInstance from "../Utils/axiosInstance";
 import { useMutation } from "@tanstack/react-query";
 import { showModal } from "../store/modalSlice";
 import { AddtoRecent } from "../store/eventSlice";
-import ErrorModal from "../Components/ErrorModal";
 
 const Event: React.FC = () => {
   const navigate = useNavigate();
@@ -83,7 +82,7 @@ const Event: React.FC = () => {
     };
     dispatch(showModal(error));
     return (
-      <div className="flex flex-col gap-4 items-center my-8">
+      <div className="flex flex-col gap-4 ite my-8">
         <p>Event with id {eventId} does not exists</p>
         <button
           onClick={handleBackClick}
