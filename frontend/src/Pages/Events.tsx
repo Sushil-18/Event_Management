@@ -7,6 +7,7 @@ import { setEvents } from "../store/eventSlice";
 import axiosInstance from "../Utils/axiosInstance";
 import { useEffect } from "react";
 import { RootState } from "../store";
+import ShimmerCard from "../Components/ShimmerCard";
 // Fetch events function
 const fetchEvents = async (): Promise<EventDetails[]> => {
   const response = await axiosInstance.get("/events", {
@@ -47,7 +48,31 @@ const Events = () => {
     navigate("/events/create");
   };
 
-  if (isLoading) return <div>Loading events...</div>;
+  if (isLoading) {
+    return (
+      <div className="mt-4 px-4 lg:px-24">
+        <section className="mb-8">
+          <h2 className="text-2xl font-bold mb-4 text-center">
+            Trending Events
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[...Array(4)].map((_, index) => (
+              <ShimmerCard key={index} />
+            ))}
+          </div>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-bold mb-4 text-center">All Events</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[...Array(6)].map((_, index) => (
+              <ShimmerCard key={`all-${index}`} />
+            ))}
+          </div>
+        </section>
+      </div>
+    );
+  }
   if (isError) return <div>Error: {error.message}</div>;
   if (!events || events.length === 0) return <div>No events found</div>;
 

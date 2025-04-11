@@ -82,11 +82,11 @@ const Event: React.FC = () => {
     };
     dispatch(showModal(error));
     return (
-      <div className="flex flex-col gap-4 ite my-8">
+      <div className="flex items-center flex-col gap-4 ite my-8">
         <p>Event with id {eventId} does not exists</p>
         <button
           onClick={handleBackClick}
-          className="flex items-center text-gray-700 hover:text-blue-500 transition-colors"
+          className="flex text-gray-700 hover:text-blue-500 transition-colors"
         >
           <ArrowLeft className="mr-2 w-5 h-5" /> Back to Events
         </button>
