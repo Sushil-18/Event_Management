@@ -8,7 +8,7 @@ const ErrorModal = () => {
 
   if (!isOpen) return null;
 
-  const closeModal = () => {};
+  const handleClose = () => dispatch(hideModal());
 
   return (
     <div
@@ -20,7 +20,7 @@ const ErrorModal = () => {
       <div
         data-testid="modal-content"
         className="bg-white rounded-lg shadow-xl w-full max-w-md relative 
-          animate-[slideIn_0.3s_ease-out_forwards] opacity-0 scale-95
+          animate-[slideIn_0.3s_ease-out] opacity-100
           transform transition-all duration-200 hover:scale-[1.02]"
         onClick={(e) => e.stopPropagation()}
       >
@@ -41,7 +41,7 @@ const ErrorModal = () => {
           {/* Modal Footer */}
           <div className="w-full p-6 border-t border-gray-200">
             <button
-              onClick={() => dispatch(hideModal())}
+              onClick={handleClose}
               className="px-6 py-2.5 bg-red-600 text-white rounded-lg
                 hover:bg-red-700 active:bg-red-800
                 transform transition-all duration-200

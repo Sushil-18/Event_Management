@@ -17,5 +17,19 @@ export default {
         },
       },
     },
+    keyframes: {
+      slideIn: {
+        "0%": { transform: "scale(0.95)", opacity: "0" },
+        "100%": { transform: "scale(1)", opacity: "1" },
+      },
+      fadeIn: {
+        "0%": { opacity: "0" },
+        "100%": { opacity: "1" },
+      },
+    },
+    animation: {
+      slideIn: "slideIn 0.3s ease-out forwards",
+      fadeIn: "fadeIn 0.2s ease-out",
+    },
   },
 };

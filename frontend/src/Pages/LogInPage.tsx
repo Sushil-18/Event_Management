@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAuthentication } from "../store/authSlice";
 import { useState } from "react";
 import { showModal } from "../store/modalSlice";
+import { serializeError } from "../Utils/SerializeError";
 
 // Define interface for form values
 interface LoginFormValues {
@@ -64,7 +65,8 @@ const LoginPage: React.FC = () => {
         console.error("No token in response:", response);
       }
     } catch (error: any) {
-      dispatch(showModal(error));
+      const serializedError = serializeError(error);
+      dispatch(showModal(serializedError));
     } finally {
       setSubmitting(false);
     }

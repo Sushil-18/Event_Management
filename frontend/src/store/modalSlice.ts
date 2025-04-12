@@ -1,10 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from ".";
+import { SerializedError } from "../Utils/SerializeError";
 
 interface ModalState {
   isOpen: boolean;
-  error: { message: string } | null;
+  error: SerializedError | null;
 }
+
 const initialState: ModalState = {
   isOpen: false,
   error: null,
@@ -14,7 +16,7 @@ const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
-    showModal: (state, action) => {
+    showModal: (state, action: PayloadAction<SerializedError>) => {
       state.isOpen = true;
       state.error = action.payload;
     },

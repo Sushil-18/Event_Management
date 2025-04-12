@@ -8,6 +8,8 @@ import axiosInstance from "../Utils/axiosInstance";
 import { useEffect } from "react";
 import { RootState } from "../store";
 import ShimmerCard from "../Components/ShimmerCard";
+import { serializeError } from "../Utils/SerializeError";
+import { showModal } from "../store/modalSlice";
 // Fetch events function
 const fetchEvents = async (): Promise<EventDetails[]> => {
   const response = await axiosInstance.get("/events", {
@@ -73,7 +75,11 @@ const Events = () => {
       </div>
     );
   }
-  if (isError) return <div>Error: {error.message}</div>;
+  if (isError) {
+    const serializedError = serializeError(error);
+    dispatch(showModal(serializedError));
+    navigate("/");
+  }
   if (!events || events.length === 0) return <div>No events found</div>;
 
   // Split events into trending and other events
